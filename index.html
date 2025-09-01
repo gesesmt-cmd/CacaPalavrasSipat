@@ -87,7 +87,7 @@ function finishGame() {
     const tempo = document.getElementById('timerValue').textContent;
 
     // Substitua a URL abaixo pela URL do seu Apps Script
-    fetch("SUA_URL_DO_SCRIPT", {
+    fetch("https://script.google.com/macros/s/AKfycbxyswA7PgxvjLe5OgceJdoMN1OzCGgO_0Q73t-YxuqQRNzLDe8GJC8_Wqn9ZVpVVQE-IQ/exec", {
         method: "POST",
         body: JSON.stringify({ nome, cpf, pontos, tempo }),
         headers: { "Content-Type": "application/json" }
