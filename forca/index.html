@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste17.05</title>
+    <title>Teste17.10</title>
     <style>
         * {
             margin: 0;
@@ -1088,10 +1088,20 @@
                     date: new Date().toLocaleString('pt-BR')
                 };
             
-                fetch('https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(data)
+                fetch('SUA_URL_DO_WEBAPP', {
+                  method: 'POST',
+                  body: JSON.stringify(data),
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
                 })
+                .then(response => response.json())
+                .then(result => {
+                  console.log('Enviado com sucesso:', result);
+                })
+                .catch(error => {
+                  console.error('Erro ao enviar:', error);
+                });
                 .then(res => res.json())
                 .then(response => {
                     console.log('Dados enviados com sucesso:', response);
