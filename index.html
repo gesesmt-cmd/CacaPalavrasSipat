@@ -1,872 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Caça Palavras SIPAT 2025</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            touch-action: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .screen {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        h1 {
-            color: #764ba2;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .welcome-text {
-            text-align: center;
-            margin-bottom: 25px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        .rights-info {
-            text-align: center;
-            margin-bottom: 25px;
-            font-style: italic;
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .instructions {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .instructions h3 {
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .score, .timer {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            min-width: 120px;
-            text-align: center;
-        }
-
-        .word-grid {
-            display: grid;
-            grid-template-columns: repeat(18, 1fr);
-            gap: 1px;
-            background: #333;
-            border-radius: 10px;
-            padding: 5px;
-            margin-bottom: 20px;
-            touch-action: none;
-        }
-
-        .grid-cell {
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 22px;
-            height: 22px;
-        }
-
-        @media (max-width: 400px) {
-            .grid-cell {
-                width: 20px;
-                height: 20px;
-                font-size: 11px;
-            }
-        }
-
-        .grid-cell.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .grid-cell.found {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .words-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .word-item {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .word-item.found {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border-color: #f5576c;
-        }
-
-        .finish-btn {
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-            margin-top: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            max-width: 90%;
-            margin: 20px;
-            animation: modalAppear 0.3s ease-out;
-        }
-
-        @keyframes modalAppear {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal h3 {
-            color: #764ba2;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .modal p {
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        .final-message {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            line-height: 1.6;
-        }
-
-        .final-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .error-message {
-            color: #f5576c;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caça Palavras SIPAT 2025</title>
+<style>
+body { font-family: Arial; background: #f0f0f0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+form, .game { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; width: 100%; max-width: 500px; }
+input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; }
+button { padding: 10px 20px; border: none; border-radius: 5px; background: #667eea; color: white; cursor: pointer; }
+button:hover { background: #764ba2; }
+</style>
 </head>
 <body>
-    <!-- Tela Inicial -->
-    <div class="container">
-        <div class="screen active" id="welcomeScreen">
-            <h1>🎯 SIPAT 2025</h1>
-            <div class="welcome-text">
-                <p><strong>Bem-vindos à SIPAT 2025!</strong></p>
-                <p>Participe do nosso Caça Palavras educativo sobre segurança no trabalho.</p>
-            </div>
-            <div class="rights-info">
-                © Direitos do game: SESMT do Grupo Energia
-            </div>
-            
-            <form id="playerForm">
-                <div class="form-group">
-                    <label for="playerName">Nome Completo *</label>
-                    <input type="text" id="playerName" required>
-                </div>
-                <div class="form-group">
-                    <label for="playerCPF">CPF *</label>
-                    <input type="text" id="playerCPF" placeholder="000.000.000-00" required>
-                </div>
-                <div class="error-message" id="errorMessage"></div>
-            </form>
-            
-            <div class="instructions">
-                <h3>📱 Como Jogar</h3>
-                <p>Toque e arraste para selecionar as palavras na grade. Encontre todas as 7 palavras relacionadas à segurança no trabalho!</p>
-            </div>
-            
-            <button class="btn" onclick="startGame()">🎮 Iniciar Caça Palavras</button>
-        </div>
 
-        <!-- Tela do Jogo -->
-        <div class="screen" id="gameScreen">
-            <div class="game-header">
-                <div class="score">Pontos: <span id="scoreValue">0</span></div>
-                <div class="timer">Tempo: <span id="timerValue">00:00</span></div>
-            </div>
-            
-            <div class="word-grid" id="wordGrid"></div>
-            
-            <div class="words-list" id="wordsList"></div>
-            
-            <button class="btn finish-btn" onclick="finishGame()">⏹️ Finalizar Jogo</button>
-        </div>
+<h1>🎯 SIPAT 2025</h1>
 
-        <!-- Tela Final -->
-        <div class="screen" id="finalScreen">
-            <h1>🎉 Parabéns!</h1>
-            <div class="welcome-text">
-                <p>Obrigado por participar da SIPAT 2025!</p>
-            </div>
-            
-            <div class="final-message">
-                <p><strong>"O cuidado gera prevenção, que fortalece a conscientização, despertando o compromisso, que se pratica com colaboração, evolui para a proatividade e resulta em valorização."</strong></p>
-            </div>
-            
-            <div class="final-stats">
-                <div class="stat-card">
-                    <div class="stat-value" id="finalScore">0</div>
-                    <div>Pontos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="finalTime">00:00</div>
-                    <div>Tempo</div>
-                </div>
-            </div>
-            
-            <button class="btn" onclick="restartGame()">🔄 Jogar Novamente</button>
-        </div>
-    </div>
+<form id="playerForm">
+    <label for="playerName">Nome Completo *</label>
+    <input type="text" id="playerName" required>
 
-    <!-- Modal para palavras encontradas -->
-    <div class="modal" id="wordModal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Palavra Encontrada!</h3>
-            <p id="modalMessage"></p>
-            <button class="btn" onclick="closeModal()">Continuar</button>
-        </div>
-    </div>
+    <label for="playerCPF">CPF *</label>
+    <input type="text" id="playerCPF" placeholder="000.000.000-00" required>
 
-    <script>
-        // Variáveis globais
-        let gameGrid = [];
-        let words = [
-            { word: 'CUIDADO', message: 'O ponto de partida. Só há segurança quando cada um cuida de si, dos colegas, das ferramentas e do ambiente.' },
-            { word: 'PREVENÇÃO', message: 'O cuidado gera a atitude preventiva, evitando riscos antes que eles aconteçam.' },
-            { word: 'CONSCIENTIZAÇÃO', message: 'A prevenção só se fortalece quando temos consciência dos riscos e entendemos o impacto das nossas atitudes.' },
-            { word: 'COMPROMISSO', message: 'A conscientização desperta o compromisso pessoal e coletivo de agir sempre de forma segura.' },
-            { word: 'COLABORAÇÃO', message: 'O compromisso se concretiza quando colaboramos uns com os outros, ajudando e alertando para que ninguém se coloque em perigo.' },
-            { word: 'PROATIVIDADE', message: 'A colaboração evolui para a proatividade: agir antes que o problema aconteça, sugerir melhorias e assumir responsabilidade.' },
-            { word: 'VALORIZAÇÃO', message: 'O ciclo se fecha na valorização: reconhecer a vida, o trabalho em equipe e o esforço de todos para que a segurança seja realidade.' }
-        ];
-        let foundWords = [];
-        let score = 0;
-        let startTime = null;
-        let timerInterval = null;
-        let isSelecting = false;
-        let startCell = null;
-        let selectedCells = [];
+    <button type="button" onclick="startGame()">Iniciar Jogo</button>
+    <div id="errorMessage" style="color:red; margin-top:5px;"></div>
+</form>
 
-        // Formatador de CPF
-        document.getElementById('playerCPF').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            e.target.value = value;
-        });
+<div class="game" id="gameScreen" style="display:none;">
+    <p>Pontos: <span id="scoreValue">0</span></p>
+    <p>Tempo: <span id="timerValue">00:00</span></p>
+    <button onclick="finishGame()">Finalizar Jogo</button>
+</div>
 
-        function validateCPF(cpf) {
-            cpf = cpf.replace(/[^\d]/g, '');
-            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-            
-            let sum = 0;
-            for (let i = 0; i < 9; i++) {
-                sum += parseInt(cpf.charAt(i)) * (10 - i);
-            }
-            let rev = 11 - (sum % 11);
-            if (rev == 10 || rev == 11) rev = 0;
-            if (rev != parseInt(cpf.charAt(9))) return false;
-            
-            sum = 0;
-            for (let i = 0; i < 10; i++) {
-                sum += parseInt(cpf.charAt(i)) * (11 - i);
-            }
-            rev = 11 - (sum % 11);
-            if (rev == 10 || rev == 11) rev = 0;
-            if (rev != parseInt(cpf.charAt(10))) return false;
-            
-            return true;
-        }
+<script>
+let score = 0;
+let startTime = null;
+let timerInterval = null;
 
-        function startGame() {
-            const name = document.getElementById('playerName').value.trim();
-            const cpf = document.getElementById('playerCPF').value;
-            const errorDiv = document.getElementById('errorMessage');
-            
-            errorDiv.textContent = '';
-            
-            if (!name) {
-                errorDiv.textContent = 'Por favor, preencha seu nome completo.';
-                return;
-            }
-            
-            if (!validateCPF(cpf)) {
-                errorDiv.textContent = 'Por favor, digite um CPF válido.';
-                return;
-            }
-            
-            document.getElementById('welcomeScreen').classList.remove('active');
-            document.getElementById('gameScreen').classList.add('active');
-            
-            initializeGame();
-        }
+// Validação simples de CPF
+function validateCPF(cpf) {
+    cpf = cpf.replace(/[^\d]/g, '');
+    return cpf.length === 11;
+}
 
-        function initializeGame() {
-            generateGrid();
-            displayGrid();
-            displayWordsList();
-            startTimer();
-            score = 0;
-            foundWords = [];
-            updateScore();
-        }
+// Formata CPF enquanto digita
+document.getElementById('playerCPF').addEventListener('input', function(e){
+    let value = e.target.value.replace(/\D/g,'');
+    value = value.replace(/(\d{3})(\d)/,'$1.$2');
+    value = value.replace(/(\d{3})(\d)/,'$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+    e.target.value = value;
+});
 
-        function generateGrid() {
-            // Inicializar grid vazio
-            gameGrid = Array(18).fill().map(() => Array(18).fill(''));
-            
-            // Ordenar palavras por comprimento (maiores primeiro)
-            const sortedWords = [...words].sort((a, b) => b.word.length - a.word.length);
-            
-            // Colocar palavras no grid
-            sortedWords.forEach(wordObj => {
-                placeWordInGrid(wordObj.word);
-            });
-            
-            // Preencher espaços vazios com letras aleatórias
-            for (let i = 0; i < 18; i++) {
-                for (let j = 0; j < 18; j++) {
-                    if (gameGrid[i][j] === '') {
-                        gameGrid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-                    }
-                }
-            }
-        }
+function startGame() {
+    const nome = document.getElementById('playerName').value.trim();
+    const cpf = document.getElementById('playerCPF').value;
 
-        function placeWordInGrid(word) {
-            let placed = false;
-            let attempts = 0;
-            
-            while (!placed && attempts < 100) {
-                const direction = Math.floor(Math.random() * 8); // 8 direções possíveis
-                const row = Math.floor(Math.random() * 18);
-                const col = Math.floor(Math.random() * 18);
-                
-                if (canPlaceWord(word, row, col, direction)) {
-                    const [deltaRow, deltaCol] = getDirection(direction);
-                    
-                    for (let i = 0; i < word.length; i++) {
-                        const newRow = row + i * deltaRow;
-                        const newCol = col + i * deltaCol;
-                        gameGrid[newRow][newCol] = word[i];
-                    }
-                    placed = true;
-                }
-                attempts++;
-            }
-        }
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = '';
 
-        function getDirection(direction) {
-            const directions = [
-                [-1, -1], [-1, 0], [-1, 1],
-                [0, -1],           [0, 1],
-                [1, -1],  [1, 0],  [1, 1]
-            ];
-            return directions[direction];
-        }
+    if(!nome) { errorDiv.textContent = 'Preencha seu nome'; return; }
+    if(!validateCPF(cpf)) { errorDiv.textContent = 'CPF inválido'; return; }
 
-        function canPlaceWord(word, row, col, direction) {
-            const [deltaRow, deltaCol] = getDirection(direction);
-            
-            for (let i = 0; i < word.length; i++) {
-                const newRow = row + i * deltaRow;
-                const newCol = col + i * deltaCol;
-                
-                if (newRow < 0 || newRow >= 18 || newCol < 0 || newCol >= 18) {
-                    return false;
-                }
-                
-                if (gameGrid[newRow][newCol] !== '' && gameGrid[newRow][newCol] !== word[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
+    document.getElementById('playerForm').style.display = 'none';
+    document.getElementById('gameScreen').style.display = 'block';
 
-        function displayGrid() {
-            const gridElement = document.getElementById('wordGrid');
-            gridElement.innerHTML = '';
-            
-            for (let i = 0; i < 18; i++) {
-                for (let j = 0; j < 18; j++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'grid-cell';
-                    cell.textContent = gameGrid[i][j];
-                    cell.dataset.row = i;
-                    cell.dataset.col = j;
-                    
-                    // Eventos de toque para mobile
-                    cell.addEventListener('touchstart', handleTouchStart, { passive: false });
-                    cell.addEventListener('touchmove', handleTouchMove, { passive: false });
-                    cell.addEventListener('touchend', handleTouchEnd, { passive: false });
-                    
-                    // Eventos de mouse para desktop
-                    cell.addEventListener('mousedown', handleMouseDown);
-                    cell.addEventListener('mousemove', handleMouseMove);
-                    cell.addEventListener('mouseup', handleMouseUp);
-                    
-                    gridElement.appendChild(cell);
-                }
-            }
-        }
+    score = 0;
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+}
 
-        function handleTouchStart(e) {
-            e.preventDefault();
-            isSelecting = true;
-            startCell = getCellFromTouch(e);
-            if (startCell) {
-                selectedCells = [startCell];
-                updateSelection();
-            }
-        }
+function updateTimer() {
+    const elapsed = Date.now() - startTime;
+    const minutes = Math.floor(elapsed / 60000);
+    const seconds = Math.floor((elapsed % 60000) / 1000);
+    document.getElementById('timerValue').textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+}
 
-        function handleTouchMove(e) {
-            e.preventDefault();
-            if (!isSelecting || !startCell) return;
-            
-            const currentCell = getCellFromTouch(e);
-            if (currentCell && !isSameCell(currentCell, selectedCells[selectedCells.length - 1])) {
-                const newSelection = getLinearSelection(startCell, currentCell);
-                if (newSelection.length > 0) {
-                    selectedCells = newSelection;
-                    updateSelection();
-                }
-            }
-        }
-
-        function handleTouchEnd(e) {
-            e.preventDefault();
-            if (isSelecting && selectedCells.length > 0) {
-                checkSelectedWord();
-            }
-            resetSelection();
-        }
-
-        function getCellFromTouch(e) {
-            const touch = e.touches[0] || e.changedTouches[0];
-            const element = document.elementFromPoint(touch.clientX, touch.clientY);
-            if (element && element.classList.contains('grid-cell')) {
-                return {
-                    row: parseInt(element.dataset.row),
-                    col: parseInt(element.dataset.col)
-                };
-            }
-            return null;
-        }
-
-        function handleMouseDown(e) {
-            e.preventDefault();
-            isSelecting = true;
-            startCell = {
-                row: parseInt(e.target.dataset.row),
-                col: parseInt(e.target.dataset.col)
-            };
-            selectedCells = [startCell];
-            updateSelection();
-        }
-
-        function handleMouseMove(e) {
-            if (!isSelecting || !startCell) return;
-            
-            const currentCell = {
-                row: parseInt(e.target.dataset.row),
-                col: parseInt(e.target.dataset.col)
-            };
-            
-            if (!isNaN(currentCell.row) && !isNaN(currentCell.col)) {
-                const newSelection = getLinearSelection(startCell, currentCell);
-                if (newSelection.length > 0) {
-                    selectedCells = newSelection;
-                    updateSelection();
-                }
-            }
-        }
-
-        function handleMouseUp(e) {
-            if (isSelecting && selectedCells.length > 0) {
-                checkSelectedWord();
-            }
-            resetSelection();
-        }
-
-        function getLinearSelection(start, end) {
-            const deltaRow = end.row - start.row;
-            const deltaCol = end.col - start.col;
-            
-            // Verificar se é uma seleção linear válida
-            if (deltaRow === 0 || deltaCol === 0 || Math.abs(deltaRow) === Math.abs(deltaCol)) {
-                const steps = Math.max(Math.abs(deltaRow), Math.abs(deltaCol));
-                const stepRow = steps === 0 ? 0 : deltaRow / steps;
-                const stepCol = steps === 0 ? 0 : deltaCol / steps;
-                
-                const selection = [];
-                for (let i = 0; i <= steps; i++) {
-                    selection.push({
-                        row: start.row + Math.round(i * stepRow),
-                        col: start.col + Math.round(i * stepCol)
-                    });
-                }
-                return selection;
-            }
-            return [];
-        }
-
-        function isSameCell(cell1, cell2) {
-            return cell1 && cell2 && cell1.row === cell2.row && cell1.col === cell2.col;
-        }
-
-        function updateSelection() {
-            // Limpar seleção anterior
-            document.querySelectorAll('.grid-cell.selected').forEach(cell => {
-                if (!cell.classList.contains('found')) {
-                    cell.classList.remove('selected');
-                }
-            });
-            
-            // Aplicar nova seleção
-            selectedCells.forEach(cell => {
-                const cellElement = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`);
-                if (cellElement && !cellElement.classList.contains('found')) {
-                    cellElement.classList.add('selected');
-                }
-            });
-        }
-
-        function resetSelection() {
-            isSelecting = false;
-            startCell = null;
-            document.querySelectorAll('.grid-cell.selected').forEach(cell => {
-                if (!cell.classList.contains('found')) {
-                    cell.classList.remove('selected');
-                }
-            });
-            selectedCells = [];
-        }
-
-        function checkSelectedWord() {
-            const selectedWord = selectedCells.map(cell => gameGrid[cell.row][cell.col]).join('');
-            const reverseWord = selectedWord.split('').reverse().join('');
-            
-            words.forEach(wordObj => {
-                if ((selectedWord === wordObj.word || reverseWord === wordObj.word) && !foundWords.includes(wordObj.word)) {
-                    wordFound(wordObj);
-                }
-            });
-        }
-
-        function wordFound(wordObj) {
-            foundWords.push(wordObj.word);
-            score += 10;
-            updateScore();
-            
-            // Marcar células como encontradas
-            selectedCells.forEach(cell => {
-                const cellElement = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`);
-                if (cellElement) {
-                    cellElement.classList.remove('selected');
-                    cellElement.classList.add('found');
-                }
-            });
-            
-            // Atualizar lista de palavras
-            updateWordsList();
-            
-            // Mostrar modal
-            showWordModal(wordObj);
-            
-            // Verificar se o jogo terminou
-            if (foundWords.length === words.length) {
-                setTimeout(() => {
-                    showCompletionMessage();
-                }, 1500);
-            }
-        }
-
-        function showWordModal(wordObj) {
-            document.getElementById('modalTitle').textContent = `Palavra encontrada: ${wordObj.word}`;
-            document.getElementById('modalMessage').textContent = wordObj.message;
-            document.getElementById('wordModal').classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('wordModal').classList.remove('show');
-        }
-
-        function displayWordsList() {
-            const wordsElement = document.getElementById('wordsList');
-            wordsElement.innerHTML = '';
-            
-            words.forEach(wordObj => {
-                const wordElement = document.createElement('div');
-                wordElement.className = 'word-item';
-                wordElement.textContent = wordObj.word;
-                wordsElement.appendChild(wordElement);
-            });
-        }
-
-        function updateWordsList() {
-            const wordElements = document.querySelectorAll('.word-item');
-            wordElements.forEach((element, index) => {
-                if (foundWords.includes(words[index].word)) {
-                    element.classList.add('found');
-                }
-            });
-        }
-
-        function updateScore() {
-            document.getElementById('scoreValue').textContent = score;
-        }
-
-        function startTimer() {
-            startTime = Date.now();
-            timerInterval = setInterval(updateTimer, 1000);
-        }
-
-        function updateTimer() {
-            const elapsed = Date.now() - startTime;
-            const minutes = Math.floor(elapsed / 60000);
-            const seconds = Math.floor((elapsed % 60000) / 1000);
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            document.getElementById('timerValue').textContent = timeString;
-        }
-
-        function finishGame() {
+function finishGame() {
     clearInterval(timerInterval);
-    showFinalScreen();
 
-    // Pegar dados do jogador
     const nome = document.getElementById('playerName').value;
     const cpf = document.getElementById('playerCPF').value;
     const pontos = score;
     const tempo = document.getElementById('timerValue').textContent;
 
-    // Enviar para Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxyswA7PgxvjLe5OgceJdoMN1OzCGgO_0Q73t-YxuqQRNzLDe8GJC8_Wqn9ZVpVVQE-IQ/exec", {
+    // Substitua a URL abaixo pela URL do seu Apps Script
+    fetch("SUA_URL_DO_SCRIPT", {
         method: "POST",
-        body: JSON.stringify({
-            nome: nome,
-            cpf: cpf,
-            pontos: pontos,
-            tempo: tempo
-        }),
-        headers: {
-            "Content-Type": "application/json"
-        }
+        body: JSON.stringify({ nome, cpf, pontos, tempo }),
+        headers: { "Content-Type": "application/json" }
     })
     .then(res => res.text())
-    .then(data => console.log("Resposta:", data))
-    .catch(err => console.error("Erro:", err));
+    .then(data => alert("Jogo finalizado! Dados enviados com sucesso."))
+    .catch(err => alert("Erro ao enviar dados: " + err));
+
+    // Opcional: resetar jogo
+    document.getElementById('gameScreen').style.display = 'none';
+    document.getElementById('playerForm').style.display = 'block';
+    document.getElementById('scoreValue').textContent = '0';
+    document.getElementById('timerValue').textContent = '00:00';
 }
+</script>
 
-
-        function showCompletionMessage() {
-            alert('🎉 Parabéns! Você encontrou todas as palavras!');
-            finishGame();
-        }
-
-        function showFinalScreen() {
-            document.getElementById('gameScreen').classList.remove('active');
-            document.getElementById('finalScreen').classList.add('active');
-            
-            const finalTime = document.getElementById('timerValue').textContent;
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('finalTime').textContent = finalTime;
-        }
-
-        function restartGame() {
-            // Reset das variáveis
-            gameGrid = [];
-            foundWords = [];
-            score = 0;
-            startTime = null;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-            
-            // Limpar formulário
-            document.getElementById('playerName').value = '';
-            document.getElementById('playerCPF').value = '';
-            document.getElementById('errorMessage').textContent = '';
-            
-            // Voltar para tela inicial
-            document.getElementById('finalScreen').classList.remove('active');
-            document.getElementById('welcomeScreen').classList.add('active');
-        }
-
-        // Prevenir zoom no mobile
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Prevenir context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-    </script>
 </body>
 </html>
