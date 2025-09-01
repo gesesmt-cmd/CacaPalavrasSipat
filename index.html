@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste09.55</title>
+    <title>Teste09.59</title>
     <style>
         * {
             margin: 0;
@@ -793,7 +793,7 @@
             document.getElementById('timerValue').textContent = timeString;
         }
 
-       function finishGame() {
+     function finishGame() {
     clearInterval(timerInterval);
 
     const nome = document.getElementById('playerName').value;
@@ -801,21 +801,16 @@
     const pontos = score;
     const tempo = document.getElementById('timerValue').textContent;
 
-    // Substitua pela URL do seu Apps Script
+    // Envia dados para a planilha
     fetch("https://script.google.com/macros/s/AKfycbxyswA7PgxvjLe5OgceJdoMN1OzCGgO_0Q73t-YxuqQRNzLDe8GJC8_Wqn9ZVpVVQE-IQ/exec", {
         method: "POST",
-        mode: "no-cors", // ⚠️ evita bloqueio CORS
+        mode: "no-cors",
         body: JSON.stringify({ nome, cpf, pontos, tempo }),
         headers: { "Content-Type": "application/json" }
     });
 
-   showFinalScreen(); // 👈 em vez do alert e reset imediato
-
-    // Reset do jogo
-    document.getElementById('gameScreen').style.display = 'none';
-    document.getElementById('playerForm').style.display = 'block';
-    document.getElementById('scoreValue').textContent = '0';
-    document.getElementById('timerValue').textContent = '00:00';
+    // Mostra a tela final
+    showFinalScreen();
 }
 
 
@@ -834,7 +829,7 @@
             document.getElementById('finalTime').textContent = finalTime;
         }
 
-       function restartGame() {
+     function restartGame() {
     // Reset das variáveis
     gameGrid = [];
     foundWords = [];
@@ -852,9 +847,6 @@
     // Voltar para tela inicial
     document.getElementById('finalScreen').classList.remove('active');
     document.getElementById('welcomeScreen').classList.add('active');
-
-    // 👉 Inicia novamente o jogo automaticamente
-    startGame();
 }
 
 
