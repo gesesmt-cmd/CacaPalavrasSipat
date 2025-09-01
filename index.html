@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste09.50</title>
+    <title>Teste09.51</title>
     <style>
         * {
             margin: 0;
@@ -809,8 +809,7 @@
         headers: { "Content-Type": "application/json" }
     });
 
-    // Mensagem de confirmação local (não depende de resposta do fetch)
-    alert("Jogo finalizado! Dados enviados com sucesso.");
+   showFinalScreen(); // 👈 em vez do alert e reset imediato
 
     // Reset do jogo
     document.getElementById('gameScreen').style.display = 'none';
