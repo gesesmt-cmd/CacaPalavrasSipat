@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste09.20</title>
+    <title>Teste09.33</title>
     <style>
         * {
             margin: 0;
@@ -801,22 +801,30 @@
     const pontos = score;
     const tempo = document.getElementById('timerValue').textContent;
 
-    // Substitua pela URL do seu Apps Script
-    fetch("https://script.google.com/macros/s/AKfycbxyswA7PgxvjLe5OgceJdoMN1OzCGgO_0Q73t-YxuqQRNzLDe8GJC8_Wqn9ZVpVVQE-IQ/exec", {
+    // Envia os dados para o Apps Script
+    fetch("https://script.google.com/macros/s/XXXXX/exec", {
         method: "POST",
-        mode: "no-cors", // ⚠️ evita bloqueio CORS
+        mode: "no-cors", // evita bloqueio CORS
         body: JSON.stringify({ nome, cpf, pontos, tempo }),
         headers: { "Content-Type": "application/json" }
     });
 
-    // Mensagem de confirmação local (não depende de resposta do fetch)
+    // Mensagem local de envio
     alert("Jogo finalizado! Dados enviados com sucesso.");
 
-    // Reset do jogo
-    document.getElementById('gameScreen').style.display = 'none';
-    document.getElementById('playerForm').style.display = 'block';
-    document.getElementById('scoreValue').textContent = '0';
-    document.getElementById('timerValue').textContent = '00:00';
+    // Atualiza valores na tela final
+    document.getElementById('finalScore').textContent = pontos;
+    document.getElementById('finalTime').textContent = tempo;
+
+    // Esconde a tela do jogo e mostra a final
+    document.getElementById('gameScreen').classList.remove('active');
+    document.getElementById('finalScreen').classList.add('active');
+}
+
+// Botão "Jogar Novamente"
+function restartGame() {
+    // Atualiza a página inteira para reset completo
+    window.location.reload();
 }
 
 
