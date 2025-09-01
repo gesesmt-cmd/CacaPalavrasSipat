@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIPAT 2025</title>
+    <title>Teste10.30</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 50%, #bf360c 100%);
+            background: linear-gradient(135deg, #cd6254 0%, #e36f36 100%);
             min-height: 100vh;
             color: #333;
             touch-action: none;
@@ -38,44 +38,20 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .screen.active {
             display: block;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
-        }
-
         h1 {
-            color: #e65100;
+            color: #764ba2;
             text-align: center;
-            margin: 0;
+            margin-bottom: 20px;
             font-size: 2.2em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            font-weight: bold;
         }
 
         .welcome-text {
@@ -101,7 +77,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #e65100;
+            color: #333;
         }
 
         .form-group input {
@@ -115,18 +91,16 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #e65100;
-            box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.1);
+            border-color: #667eea;
         }
 
         .instructions {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 25px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
         }
 
         .instructions h3 {
@@ -134,7 +108,7 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -143,14 +117,12 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s;
+            transition: transform 0.2s;
             margin-top: 10px;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(230, 81, 0, 0.4);
         }
 
         .btn:active {
@@ -167,26 +139,24 @@
         }
 
         .score, .timer {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             padding: 10px 15px;
             border-radius: 20px;
             font-weight: bold;
             min-width: 120px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(230, 81, 0, 0.3);
         }
 
         .word-grid {
             display: grid;
             grid-template-columns: repeat(18, 1fr);
             gap: 1px;
-            background: #e65100;
+            background: #333;
             border-radius: 10px;
             padding: 5px;
             margin-bottom: 20px;
             touch-action: none;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
         }
 
         .grid-cell {
@@ -200,7 +170,6 @@
             transition: all 0.2s;
             width: 22px;
             height: 22px;
-            border-radius: 2px;
         }
 
         @media (max-width: 400px) {
@@ -212,15 +181,13 @@
         }
 
         .grid-cell.selected {
-            background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            transform: scale(1.1);
         }
 
         .grid-cell.found {
-            background: linear-gradient(135deg, #bf360c 0%, #e65100 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            box-shadow: 0 2px 8px rgba(191, 54, 12, 0.5);
         }
 
         .words-list {
@@ -241,14 +208,13 @@
         }
 
         .word-item.found {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            border-color: #e65100;
-            box-shadow: 0 4px 15px rgba(230, 81, 0, 0.3);
+            border-color: #f5576c;
         }
 
         .finish-btn {
-            background: linear-gradient(135deg, #bf360c 0%, #e65100 100%);
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
             margin-top: 10px;
         }
 
@@ -277,7 +243,6 @@
             max-width: 90%;
             margin: 20px;
             animation: modalAppear 0.3s ease-out;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes modalAppear {
@@ -292,7 +257,7 @@
         }
 
         .modal h3 {
-            color: #e65100;
+            color: #764ba2;
             margin-bottom: 15px;
             font-size: 1.5em;
         }
@@ -304,14 +269,13 @@
         }
 
         .final-message {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
             text-align: center;
             line-height: 1.6;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
         }
 
         .final-stats {
@@ -322,12 +286,11 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             padding: 15px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
         }
 
         .stat-value {
@@ -337,24 +300,10 @@
         }
 
         .error-message {
-            color: #d32f2f;
+            color: #f5576c;
             text-align: center;
             margin-top: 10px;
             font-weight: bold;
-        }
-
-        /* Subtle animations */
-        .logo {
-            animation: pulseGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            from {
-                box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
-            }
-            to {
-                box-shadow: 0 8px 25px rgba(230, 81, 0, 0.5);
-            }
         }
     </style>
 </head>
@@ -362,10 +311,7 @@
     <!-- Tela Inicial -->
     <div class="container">
         <div class="screen active" id="welcomeScreen">
-            <div class="logo-container">
-                <div class="logo">🛡️</div>
-                <h1>SIPAT 2025</h1>
-            </div>
+            <h1>🎯 SIPAT 2025</h1>
             <div class="welcome-text">
                 <p><strong>Bem-vindos à SIPAT 2025!</strong></p>
                 <p>Participe do nosso Caça Palavras educativo sobre segurança no trabalho.</p>
@@ -373,6 +319,7 @@
             <div class="rights-info">
                 © Direitos do game: SESMT do Grupo Energia
             </div>
+            
             <form id="playerForm">
                 <div class="form-group">
                     <label for="playerName">Nome Completo *</label>
@@ -384,10 +331,12 @@
                 </div>
                 <div class="error-message" id="errorMessage"></div>
             </form>
+            
             <div class="instructions">
                 <h3>📱 Como Jogar</h3>
                 <p>Toque e arraste para selecionar as palavras na grade. Encontre todas as 7 palavras relacionadas à segurança no trabalho!</p>
             </div>
+            
             <button class="btn" onclick="startGame()">🎮 Iniciar Caça Palavras</button>
         </div>
 
@@ -397,23 +346,25 @@
                 <div class="score">Pontos: <span id="scoreValue">0</span></div>
                 <div class="timer">Tempo: <span id="timerValue">00:00</span></div>
             </div>
+            
             <div class="word-grid" id="wordGrid"></div>
+            
             <div class="words-list" id="wordsList"></div>
+            
             <button class="btn finish-btn" onclick="finishGame()">⏹️ Finalizar Jogo</button>
         </div>
 
         <!-- Tela Final -->
         <div class="screen" id="finalScreen">
-            <div class="logo-container">
-                <div class="logo">🎉</div>
-                <h1>Parabéns!</h1>
-            </div>
+            <h1>🎉 Parabéns!</h1>
             <div class="welcome-text">
                 <p>Obrigado por participar da SIPAT 2025!</p>
             </div>
+            
             <div class="final-message">
                 <p><strong>"O cuidado gera prevenção, que fortalece a conscientização, despertando o compromisso, que se pratica com colaboração, evolui para a proatividade e resulta em valorização."</strong></p>
             </div>
+            
             <div class="final-stats">
                 <div class="stat-card">
                     <div class="stat-value" id="finalScore">0</div>
@@ -424,6 +375,7 @@
                     <div>Tempo</div>
                 </div>
             </div>
+            
             <button class="btn" onclick="restartGame()">🔄 Jogar Novamente</button>
         </div>
     </div>
@@ -469,6 +421,7 @@
         function validateCPF(cpf) {
             cpf = cpf.replace(/[^\d]/g, '');
             if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            
             let sum = 0;
             for (let i = 0; i < 9; i++) {
                 sum += parseInt(cpf.charAt(i)) * (10 - i);
@@ -476,6 +429,7 @@
             let rev = 11 - (sum % 11);
             if (rev == 10 || rev == 11) rev = 0;
             if (rev != parseInt(cpf.charAt(9))) return false;
+            
             sum = 0;
             for (let i = 0; i < 10; i++) {
                 sum += parseInt(cpf.charAt(i)) * (11 - i);
@@ -483,6 +437,7 @@
             rev = 11 - (sum % 11);
             if (rev == 10 || rev == 11) rev = 0;
             if (rev != parseInt(cpf.charAt(10))) return false;
+            
             return true;
         }
 
@@ -490,20 +445,22 @@
             const name = document.getElementById('playerName').value.trim();
             const cpf = document.getElementById('playerCPF').value;
             const errorDiv = document.getElementById('errorMessage');
+            
             errorDiv.textContent = '';
-
+            
             if (!name) {
                 errorDiv.textContent = 'Por favor, preencha seu nome completo.';
                 return;
             }
-
+            
             if (!validateCPF(cpf)) {
                 errorDiv.textContent = 'Por favor, digite um CPF válido.';
                 return;
             }
-
+            
             document.getElementById('welcomeScreen').classList.remove('active');
             document.getElementById('gameScreen').classList.add('active');
+            
             initializeGame();
         }
 
@@ -550,6 +507,7 @@
                 
                 if (canPlaceWord(word, row, col, direction)) {
                     const [deltaRow, deltaCol] = getDirection(direction);
+                    
                     for (let i = 0; i < word.length; i++) {
                         const newRow = row + i * deltaRow;
                         const newCol = col + i * deltaCol;
@@ -831,4 +789,78 @@
             const elapsed = Date.now() - startTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerValue').textContent = timeString;
+        }
+
+     function finishGame() {
+    clearInterval(timerInterval);
+
+    const nome = document.getElementById('playerName').value;
+    const cpf = document.getElementById('playerCPF').value;
+    const pontos = score;
+    const tempo = document.getElementById('timerValue').textContent;
+
+    // Envia dados para a planilha
+    fetch("https://script.google.com/macros/s/AKfycbxyswA7PgxvjLe5OgceJdoMN1OzCGgO_0Q73t-YxuqQRNzLDe8GJC8_Wqn9ZVpVVQE-IQ/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({ nome, cpf, pontos, tempo }),
+        headers: { "Content-Type": "application/json" }
+    });
+
+    // Mostra a tela final
+    showFinalScreen();
+}
+
+
+
+        function showCompletionMessage() {
+            alert('🎉 Parabéns! Você encontrou todas as palavras!');
+            finishGame();
+        }
+
+        function showFinalScreen() {
+            document.getElementById('gameScreen').classList.remove('active');
+            document.getElementById('finalScreen').classList.add('active');
+            
+            const finalTime = document.getElementById('timerValue').textContent;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalTime').textContent = finalTime;
+        }
+
+     function restartGame() {
+    // Reset das variáveis
+    gameGrid = [];
+    foundWords = [];
+    score = 0;
+    startTime = null;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    // Limpar formulário
+    document.getElementById('playerName').value = '';
+    document.getElementById('playerCPF').value = '';
+    document.getElementById('errorMessage').textContent = '';
+
+    // Voltar para tela inicial
+    document.getElementById('finalScreen').classList.remove('active');
+    document.getElementById('welcomeScreen').classList.add('active');
+}
+
+
+        // Prevenir zoom no mobile
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevenir context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
