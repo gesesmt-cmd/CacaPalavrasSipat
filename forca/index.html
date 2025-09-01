@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOGO DA FORCA</title>
+    <title>Jogo da Forca - SIPAT Segurança do Trabalho</title>
     <style>
         * {
             margin: 0;
@@ -357,12 +357,17 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 15px;
+                margin: 5px;
+                width: 95%;
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
             }
             
             .word-display {
@@ -371,27 +376,163 @@
             }
             
             .keyboard {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+            }
+            
+            .key {
+                padding: 10px 8px;
+                font-size: 14px;
             }
             
             .hangman-area {
                 flex-direction: column;
             }
             
+            .hangman-drawing {
+                width: 220px;
+                height: 270px;
+            }
+            
             .game-info {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
+                padding: 12px;
+            }
+            
+            .info-item {
+                margin: 5px;
+            }
+            
+            .info-value {
+                font-size: 16px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 14px;
+                margin: 8px;
+            }
+            
+            .rules-card {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .hint {
+                padding: 12px;
+                font-size: 14px;
             }
         }
 
         @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 2px;
+                width: 98%;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            
+            h2 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            
+            .keyboard {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 4px;
+                margin: 20px 0;
+            }
+            
+            .key {
+                padding: 8px 6px;
+                font-size: 12px;
+            }
+            
+            .word-display {
+                font-size: 1.4em;
+                letter-spacing: 3px;
+            }
+            
+            .hangman-drawing {
+                width: 180px;
+                height: 220px;
+            }
+            
+            .game-info {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .info-item {
+                margin: 3px;
+            }
+            
+            .info-value {
+                font-size: 14px;
+            }
+            
+            .info-label {
+                font-size: 10px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 12px;
+                margin: 5px;
+            }
+            
+            .rules-card {
+                padding: 12px;
+                margin: 10px 0;
+            }
+            
+            .rules-card h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+            
+            .rules-card p, .rules-card li {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+            
+            .hint {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            input {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .form-group {
+                margin: 15px 0;
+            }
+        }
+
+        @media (max-width: 320px) {
             .keyboard {
                 grid-template-columns: repeat(3, 1fr);
             }
             
             .word-display {
-                font-size: 1.5em;
-                letter-spacing: 3px;
+                font-size: 1.2em;
+                letter-spacing: 2px;
+            }
+            
+            .hangman-drawing {
+                width: 160px;
+                height: 200px;
+            }
+            
+            .game-info {
+                grid-template-columns: 1fr;
             }
         }
     </style>
