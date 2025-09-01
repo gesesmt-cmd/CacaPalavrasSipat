@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste09.51</title>
+    <title>Teste09.55</title>
     <style>
         * {
             margin: 0;
@@ -834,25 +834,29 @@
             document.getElementById('finalTime').textContent = finalTime;
         }
 
-        function restartGame() {
-            // Reset das variáveis
-            gameGrid = [];
-            foundWords = [];
-            score = 0;
-            startTime = null;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-            
-            // Limpar formulário
-            document.getElementById('playerName').value = '';
-            document.getElementById('playerCPF').value = '';
-            document.getElementById('errorMessage').textContent = '';
-            
-            // Voltar para tela inicial
-            document.getElementById('finalScreen').classList.remove('active');
-            document.getElementById('welcomeScreen').classList.add('active');
-        }
+       function restartGame() {
+    // Reset das variáveis
+    gameGrid = [];
+    foundWords = [];
+    score = 0;
+    startTime = null;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    // Limpar formulário
+    document.getElementById('playerName').value = '';
+    document.getElementById('playerCPF').value = '';
+    document.getElementById('errorMessage').textContent = '';
+
+    // Voltar para tela inicial
+    document.getElementById('finalScreen').classList.remove('active');
+    document.getElementById('welcomeScreen').classList.add('active');
+
+    // 👉 Inicia novamente o jogo automaticamente
+    startGame();
+}
+
 
         // Prevenir zoom no mobile
         document.addEventListener('touchmove', function(e) {
