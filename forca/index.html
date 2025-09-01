@@ -708,7 +708,7 @@
                 </div>
             </div>
             
-            <button class="btn" onclick="newGame()">Jogar Novamente</button>
+            <button class="btn" onclick="showLogin()">Jogar Novamente</button>
             <button class="btn" onclick="showRulesFromGame()" style="background: #666;">Menu Principal</button>
         </div>
     </div>
@@ -821,6 +821,9 @@
         }
 
         function showLogin() {
+            document.getElementById('playerName').value = '';
+            document.getElementById('playerCPF').value = '';
+            currentPlayer = { name: '', cpf: '' };
             showScreen('login');
         }
 
@@ -1072,7 +1075,28 @@
             messageDiv.textContent = message;
 
             // Enviar dados para Google Sheets (simulação)
-            saveToGoogleSheets();
+           function saveToGoogleSheets() {
+                const data = {
+                    name: currentPlayer.name,
+                    cpf: currentPlayer.cpf,
+                    score: score,
+                    time: getElapsedTime(),
+                    word: currentWord,
+                    date: new Date().toLocaleString('pt-BR')
+                };
+            
+                fetch('https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(response => {
+                    console.log('Dados enviados com sucesso:', response);
+                })
+                .catch(err => {
+                    console.error('Erro ao enviar dados:', err);
+                });
+            }
             
             showScreen('final');
         }
