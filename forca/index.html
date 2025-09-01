@@ -133,14 +133,13 @@
         }
 
         .game-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
             background: #f8f9fa;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
 
         .info-item {
@@ -569,8 +568,8 @@
                 
                 <h3>🎮 Regras</h3>
                 <ul>
-                    <li>Você começa com <strong>60 pontos</strong></li>
-                    <li>Cada <strong>erro perde 10 pontos</strong></li>
+                    <li>Você começa com <strong>6 pontos</strong></li>
+                    <li>Cada <strong>erro perde 1 ponto</strong></li>
                     <li>Máximo de <strong>6 erros</strong> (depois disso, game over)</li>
                     <li>Use o teclado físico ou clique nas letras na tela</li>
                     <li>Uma dica será exibida para ajudar</li>
@@ -580,9 +579,12 @@
                 
                 <h3>🏆 Pontuação</h3>
                 <ul>
-                    <li><strong>60-50 pontos:</strong> Excelente conhecimento!</li>
-                    <li><strong>49-30 pontos:</strong> Bom conhecimento!</li>
-                    <li><strong>29-10 pontos:</strong> Precisa estudar mais!</li>
+                    <li><strong>6 pontos:</strong> Perfeito! Conhecimento excepcional!</li>
+                    <li><strong>5 pontos:</strong> Excelente conhecimento!</li>
+                    <li><strong>4 pontos:</strong> Muito bom conhecimento!</li>
+                    <li><strong>3 pontos:</strong> Bom conhecimento!</li>
+                    <li><strong>2 pontos:</strong> Conhecimento básico!</li>
+                    <li><strong>1 ponto:</strong> Precisa estudar mais!</li>
                     <li><strong>0 pontos:</strong> Recomendamos um treinamento!</li>
                 </ul>
             </div>
@@ -600,7 +602,7 @@
                 </div>
                 <div class="info-item">
                     <div class="info-label">Pontos</div>
-                    <div class="info-value" id="scoreDisplay">60</div>
+                    <div class="info-value" id="scoreDisplay">6</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Erros</div>
@@ -765,7 +767,7 @@
         let displayWord = [];
         let guessedLetters = [];
         let wrongGuesses = 0;
-        let score = 60;
+        let score = 6;
         let startTime = null;
         let gameTimer = null;
 
@@ -876,7 +878,7 @@
         // Reset do jogo
         function resetGame() {
             wrongGuesses = 0;
-            score = 60;
+            score = 6;
             guessedLetters = [];
             updateDisplay();
             hideHangman();
@@ -971,7 +973,7 @@
             } else {
                 // Erro
                 wrongGuesses++;
-                score = Math.max(0, score - 10);
+                score = Math.max(0, score - 1);
                 keyElement.style.background = '#f44336';
                 showHangmanPart();
                 
@@ -1048,12 +1050,18 @@
 
             if (won) {
                 messageClass = 'win';
-                if (score >= 50) {
-                    message = '🎉 Excelente! Você tem um conhecimento excepcional sobre segurança do trabalho!';
-                } else if (score >= 30) {
-                    message = '👏 Muito bom! Você demonstrou bom conhecimento em segurança!';
-                } else {
-                    message = '👍 Parabéns! Continue estudando para melhorar ainda mais!';
+                if (score === 6) {
+                    message = '🎉 Perfeito! Você tem um conhecimento excepcional sobre segurança do trabalho!';
+                } else if (score === 5) {
+                    message = '⭐ Excelente! Você demonstrou muito conhecimento em segurança!';
+                } else if (score === 4) {
+                    message = '👏 Muito bom! Ótimo conhecimento em segurança do trabalho!';
+                } else if (score === 3) {
+                    message = '👍 Bom trabalho! Você tem bom conhecimento em segurança!';
+                } else if (score === 2) {
+                    message = '😊 Conhecimento básico! Continue estudando para melhorar!';
+                } else if (score === 1) {
+                    message = '📚 Conseguiu! Mas precisa estudar mais sobre segurança!';
                 }
             } else {
                 messageClass = 'lose';
