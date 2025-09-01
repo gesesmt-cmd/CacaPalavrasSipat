@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste17.25</title>
+    <title>Teste17.30</title>
     <style>
         * {
             margin: 0;
@@ -1088,16 +1088,18 @@
                 date: new Date().toLocaleString('pt-BR')
               };
             
-              fetch("https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec")
-              .then(res => res.json())
-              .then(data => console.log(data))
-              .catch(err => console.error(err));
+              fetch("https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec", {
+                method: "POST",
+                mode: "cors", // precisa disso
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+              })
               .then(response => response.json())
               .then(result => {
-                console.log('Enviado com sucesso:', result);
+                console.log("✅ Enviado com sucesso:", result);
               })
               .catch(error => {
-                console.error('Erro ao enviar:', error);
+                console.error("❌ Erro ao enviar:", error);
               });
             }
 
