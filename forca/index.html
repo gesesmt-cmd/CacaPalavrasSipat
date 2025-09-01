@@ -1073,8 +1073,11 @@
 
             messageDiv.className = `final-message ${messageClass}`;
             messageDiv.textContent = message;
+            saveToGoogleSheets();
+            showScreen('final');
+        }
 
-            // Enviar dados para Google Sheets (simulação)
+         // Enviar dados para Google Sheets (simulação)
            function saveToGoogleSheets() {
                 const data = {
                     name: currentPlayer.name,
@@ -1097,27 +1100,4 @@
                     console.error('Erro ao enviar dados:', err);
                 });
             }
-            
-            showScreen('final');
-        }
-
-        // Função para salvar no Google Sheets (exemplo de implementação)
-        function saveToGoogleSheets() {
-            const data = {
-                name: currentPlayer.name,
-                cpf: currentPlayer.cpf,
-                score: score,
-                time: getElapsedTime(),
-                word: currentWord,
-                date: new Date().toLocaleString('pt-BR')
-            };
-
-            // Aqui você colocaria a URL do seu Google Apps Script
-            // fetch('https://script.google.com/macros/s/SEU_ID_AQUI/exec', {
-            //     method: 'POST',
-            //     body: JSON.stringify(data)
-            // });
-
-            console.log('Dados que seriam enviados:', data);
-        }
     </script>
