@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste14.49</title>
+    <title>Teste13.52</title>
    <style>
         * {
             margin: 0;
@@ -23,10 +23,11 @@
             user-select: none;
         }
 
-        .container {
-            max-width: 500px;
+       .container {
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 0px;
+            padding: 10px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -73,7 +74,7 @@
             color: #e65100;
             text-align: center;
             margin: 0;
-            font-size: 2.2em;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             font-weight: bold;
         }
@@ -137,9 +138,9 @@
             background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 20px;
             border-radius: 25px;
-            font-size: 18px;
+            font-size: clamp(14px, 4vw, 18px);
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -177,29 +178,30 @@
             box-shadow: 0 4px 15px rgba(230, 81, 0, 0.3);
         }
 
-        .word-grid {
+       .word-grid {
             display: grid;
-            grid-template-columns: repeat(18, 1fr);
-            gap: 1px;
+            grid-template-columns: repeat(18, minmax(0, 1fr));
+            gap: 2px;
             background: #e65100;
             border-radius: 10px;
             padding: 5px;
             margin-bottom: 20px;
             touch-action: none;
             box-shadow: 0 8px 20px rgba(230, 81, 0, 0.3);
+            width: 100%;
+            max-width: 100%;
         }
-
+        
         .grid-cell {
             background: white;
+            aspect-ratio: 1 / 1; /* mantém quadrado */
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 12px;
+            font-size: clamp(8px, 2vw, 14px); /* se adapta à tela */
             cursor: pointer;
             transition: all 0.2s;
-            width: 22px;
-            height: 22px;
             border-radius: 2px;
         }
 
