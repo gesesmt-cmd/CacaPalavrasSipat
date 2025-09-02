@@ -90,28 +90,18 @@
 
     .buttons {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
     }
 
     .btn {
-      padding: 18px 40px;
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      font-weight: bold;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      position: relative;
-      overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      padding: 15px;
+      text-align: center;
     }
 
     .btn::before {
@@ -158,7 +148,15 @@
     .btn-black:active {
       transform: translateY(-2px) scale(0.98);
     }
-
+    .btn .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .btn .label {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
     /* Responsividade para tablets */
     @media (max-width: 768px) {
       body {
@@ -300,18 +298,25 @@
   
   <div class="container">
     <h1>SIPAT 2025</h1>
-          <div class="buttons">
+         <div class="buttons">
             <button class="btn btn-orange" onclick="window.location.href='https://gesesmt-cmd.github.io/Sipat2025Energia/cacapalavra/'">
-              🔍 Caça Palavra
+              <span class="icon">🔍</span>
+              <span class="label">Caça Palavra</span>
             </button>
+          
             <button class="btn btn-black" onclick="window.location.href='https://gesesmt-cmd.github.io/Sipat2025Energia/forca/'">
-              🎯 Forca
+              <span class="icon">🎯</span>
+              <span class="label">Forca</span>
             </button>
+          
             <button class="btn btn-orange" onclick="window.location.href='https://gesesmt-cmd.github.io/Sipat2025Energia/cruzadinha/'">
-              ✏️ Cruzadinha
+              <span class="icon">✏️</span>
+              <span class="label">Cruzadinha</span>
             </button>
+          
             <button class="btn btn-black" onclick="window.location.href='https://gesesmt-cmd.github.io/Sipat2025Energia/ranking/'">
-              🏆 Ranking
+              <span class="icon">🏆</span>
+              <span class="label">Ranking</span>
             </button>
           </div>
     </div>
