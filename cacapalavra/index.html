@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Teste13.52</title>
+    <title>Teste13.59</title>
    <style>
         * {
             margin: 0;
@@ -21,6 +21,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            overflow-y: auto; /* habilita scroll se o conteúdo for maior que a tela */
         }
 
        .container {
@@ -28,10 +29,9 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 10px;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* conteúdo começa no topo */
         }
 
         .screen {
@@ -402,7 +402,7 @@
             
             <div class="words-list" id="wordsList"></div>
             
-            <button class="btn finish-btn" onclick="finishGame()">⏹️ Finalizar Jogo</button>
+            <button class="btn finish-btn" onclick="finishGame()">⏹️ Finalizar Jogo14.00</button>
         </div>
 
         <!-- Tela Final -->
