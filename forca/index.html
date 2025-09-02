@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste17.30</title>
+    <title>Teste13.32</title>
     <style>
         * {
             margin: 0;
@@ -1078,7 +1078,7 @@
         }
 
          // Enviar dados para Google Sheets (simulação)
-           function saveToGoogleSheets() {
+          function saveToGoogleSheets() {
               const data = {
                 name: currentPlayer.name,
                 cpf: currentPlayer.cpf,
@@ -1088,18 +1088,22 @@
                 date: new Date().toLocaleString('pt-BR')
               };
             
-              fetch("https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec", {
+              // Cole aqui a URL do "Web App" do seu Apps Script
+              const url = "https://script.google.com/macros/s/AKfycbxKF64hFQk4Kh4WoCY0zExbEHPxDxmIKSaBje2eEWzmD1R5zDBfLO8vSiZkte8FU1mhGg/exec";
+            
+              fetch(url, {
                 method: "POST",
-                mode: "cors", // precisa disso
-                headers: { "Content-Type": "application/json" },
+                mode: "no-cors", // não dispara preflight → evita CORS
+                headers: {
+                  "Content-Type": "text/plain;charset=utf-8" // request simples
+                },
                 body: JSON.stringify(data)
               })
-              .then(response => response.json())
-              .then(result => {
-                console.log("✅ Enviado com sucesso:", result);
+              .then(() => {
+                console.log("✅ Dados enviados para a planilha (não é possível ler resposta em no-cors).");
               })
-              .catch(error => {
-                console.error("❌ Erro ao enviar:", error);
+              .catch(err => {
+                console.error("❌ Erro ao enviar:", err);
               });
             }
 
