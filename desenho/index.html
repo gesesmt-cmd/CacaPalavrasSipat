@@ -3,43 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 15.47</title>
+  <title>Teste 15.55</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg,#e65100 0%,#ff9800 50%,#bf360c 100%);
-      min-height:100vh; color:#333;
-      display:flex; align-items:center; justify-content:center; padding:20px;
-    }
-    .card{
-      width:100%; max-width:520px; background:rgba(255,255,255,.95);
-      border-radius:20px; padding:28px; box-shadow:0 20px 40px rgba(0,0,0,.2);
-      border:2px solid rgba(255,255,255,.12);
-    }
+    body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#e65100 0%,#ff9800 50%,#bf360c 100%);min-height:100vh;color:#333;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:520px;background:rgba(255,255,255,.95);border-radius:20px;padding:28px;box-shadow:0 20px 40px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.12)}
     .logo-wrap{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:16px}
-    .logo{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;background:linear-gradient(135deg,#e65100 0%, #ff9800 100%);box-shadow:0 8px 20px rgba(230,81,0,.3)}
+    .logo{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;background:linear-gradient(135deg,#e65100 0%,#ff9800 100%);box-shadow:0 8px 20px rgba(230,81,0,.3)}
     h1{color:#e65100;text-align:center;font-size:2rem;margin-bottom:6px;font-weight:700;text-shadow:2px 2px 4px rgba(0,0,0,.08)}
     p.sub{color:#555;text-align:center;margin-bottom:22px}
     .form-group{margin-bottom:16px}
     label{display:block;font-weight:700;color:#e65100;margin-bottom:8px}
-    input[type="text"], input[type="number"], textarea{
-      width:100%; padding:12px; border:2px solid #ddd; border-radius:12px; font-size:16px; transition:border-color .25s, box-shadow .25s; background:#fff
-    }
-    textarea{min-height:110px; resize:vertical}
-    input:focus, textarea:focus{outline:none; border-color:#e65100; box-shadow:0 0 0 3px rgba(230,81,0,.12)}
-    .file-row{display:grid; grid-template-columns:1fr; gap:10px}
-    .preview{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
-    .thumb{width:88px; height:88px; border-radius:10px; object-fit:cover; border:2px solid #eee; box-shadow:0 4px 10px rgba(0,0,0,.06)}
-    .checkbox-group{display:flex; align-items:flex-start; gap:8px; margin:18px 0}
-    .checkbox-group input{margin-top:3px; transform:scale(1.2)}
-    .checkbox-group label{font-weight:700; color:#333; margin:0; cursor:pointer}
-    .btn{width:100%; border:none; cursor:pointer; padding:14px 22px; border-radius:28px; font-weight:700; font-size:17px; color:#fff; background:linear-gradient(135deg,#e65100 0%,#ff9800 100%); box-shadow:0 10px 24px rgba(230,81,0,.35); transition:transform .15s, box-shadow .2s}
-    .btn:hover{transform:translateY(-2px); box-shadow:0 14px 26px rgba(230,81,0,.45)}
-    .btn:active{transform:none}
-    .muted{font-size:.9rem; color:#666; text-align:center; margin-top:8px}
-    .error{color:#d32f2f; text-align:center; font-weight:700; margin:6px 0 0}
-    .ok{color:#2e7d32; text-align:center; font-weight:700; margin:6px 0 0}
+    input[type="text"], input[type="number"], textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:16px;transition:border-color .25s, box-shadow .25s;background:#fff}
+    textarea{min-height:110px;resize:vertical}
+    input:focus, textarea:focus{outline:none;border-color:#e65100;box-shadow:0 0 0 3px rgba(230,81,0,.12)}
+    .preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .thumb{width:88px;height:88px;border-radius:10px;object-fit:cover;border:2px solid #eee;box-shadow:0 4px 10px rgba(0,0,0,.06)}
+    .checkbox-group{display:flex;align-items:flex-start;gap:8px;margin:18px 0}
+    .checkbox-group input{margin-top:3px;transform:scale(1.2)}
+    .btn{width:100%;border:none;cursor:pointer;padding:14px 22px;border-radius:28px;font-weight:700;font-size:17px;color:#fff;background:linear-gradient(135deg,#e65100 0%,#ff9800 100%);box-shadow:0 10px 24px rgba(230,81,0,.35);transition:transform .15s, box-shadow .2s}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(230,81,0,.45)}
+    .muted{font-size:.9rem;color:#666;text-align:center;margin-top:8px}
+    .error{color:#d32f2f;text-align:center;font-weight:700;margin:6px 0 0}
+    .ok{color:#2e7d32;text-align:center;font-weight:700;margin:6px 0 0}
   </style>
 </head>
 <body>
@@ -50,62 +36,58 @@
     </div>
     <p class="sub">Leia as Regras do Concurso. Preencha os dados abaixo e anexe as fotos.</p>
 
-    <form id="formCadastro" enctype="multipart/form-data">
+    <form id="formCadastro">
       <div class="form-group">
         <label for="nome">Nome do colaborador *</label>
-        <input id="nome" name="nome" type="text" placeholder="Nome completo" autocomplete="name" required />
+        <input id="nome" name="nome" type="text" required />
       </div>
 
       <div class="form-group">
         <label for="cpf">CPF *</label>
-        <input id="cpf" name="cpf" type="text" placeholder="000.000.000-00" inputmode="numeric" required />
+        <input id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required />
         <div id="cpfErro" class="error" style="display:none">CPF inválido.</div>
       </div>
 
       <div class="form-group">
         <label for="idade">Idade da criança *</label>
-        <input id="idade" name="idade_crianca" type="number" min="0" max="17" step="1" placeholder="Ex.: 7" required />
+        <input id="idade" name="idade_crianca" type="number" min="0" max="17" step="1" required />
       </div>
 
       <div class="form-group">
         <label for="resposta">Resposta à pergunta obrigatória *</label>
-        <textarea id="resposta" name="resposta" placeholder="Digite a resposta" required></textarea>
+        <textarea id="resposta" name="resposta" required></textarea>
       </div>
 
       <div class="form-group">
         <label for="foto_crianca">Foto da criança desenhando *</label>
-        <div class="file-row">
-          <input id="foto_crianca" name="foto_crianca" type="file" accept="image/*" capture="environment" required />
-          <div id="prev_crianca" class="preview"></div>
-        </div>
+        <input id="foto_crianca" type="file" accept="image/*" required />
+        <div id="prev_crianca" class="preview"></div>
       </div>
 
       <div class="form-group">
         <label for="foto_desenho">Foto do desenho *</label>
-        <div class="file-row">
-          <input id="foto_desenho" name="foto_desenho" type="file" accept="image/*" capture="environment" required />
-          <div id="prev_desenho" class="preview"></div>
-        </div>
+        <input id="foto_desenho" type="file" accept="image/*" required />
+        <div id="prev_desenho" class="preview"></div>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="autorizacao" required />
-        <label for="autorizacao"><strong>Autorizo o uso da imagem da criança para fins institucionais e de divulgação.</strong></label>
+        <label for="autorizacao"><strong>Autorizo o uso da imagem da criança para fins institucionais.</strong></label>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="concordo" required />
-        <label for="concordo"><strong>Declaro que li e concordo com o regulamento do concurso.</strong></label>
+        <label for="concordo"><strong>Declaro que li e concordo com o regulamento.</strong></label>
       </div>
+
       <button class="btn" type="submit" id="btnEnviar" disabled>Enviar cadastro</button>
       <div id="msg" class="muted"></div>
     </form>
   </main>
 
   <script>
-    // ====== Máscara + validação de CPF ======
+    // ====== CPF ======
     const cpfInput = document.getElementById('cpf');
     const cpfErro = document.getElementById('cpfErro');
-
     cpfInput.addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '');
       v = v.replace(/(\d{3})(\d)/, '$1.$2');
@@ -113,7 +95,6 @@
       v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
       e.target.value = v;
     });
-
     function validaCPF(cpf){
       cpf = cpf.replace(/[^\d]/g, '');
       if(cpf.length !== 11 || /(\d)\1{10}/.test(cpf)) return false;
@@ -123,38 +104,41 @@
       dig = 11 - (soma % 11); if(dig >= 10) dig = 0; return dig === parseInt(cpf.charAt(10));
     }
 
-    // ====== Pré-visualização de imagens ======
+    // ====== Preview ======
     function previewFile(input, wrap){
       wrap.innerHTML = '';
       const f = input.files && input.files[0];
       if(!f) return;
       const url = URL.createObjectURL(f);
       const img = document.createElement('img');
-      img.src = url; img.alt = f.name; img.className = 'thumb';
+      img.src = url; img.className = 'thumb';
       wrap.appendChild(img);
     }
+    document.getElementById('foto_crianca').addEventListener('change', (e)=> previewFile(e.target, document.getElementById('prev_crianca')));
+    document.getElementById('foto_desenho').addEventListener('change', (e)=> previewFile(e.target, document.getElementById('prev_desenho')));
 
-    document.getElementById('foto_crianca').addEventListener('change', (e)=>{
-      previewFile(e.target, document.getElementById('prev_crianca'));
-    });
-    document.getElementById('foto_desenho').addEventListener('change', (e)=>{
-      previewFile(e.target, document.getElementById('prev_desenho'));
-    });
+    // ====== Base64 helper ======
+    async function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]); // só base64
+        reader.onerror = error => reject(error);
+      });
+    }
 
-    // ====== Envio ao Google Apps Script ======
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPiu12mroORpnRiuJ-LzGcYlUx6aa3bZLQfW1Baz0fUwgiM-md1Ot_H6S1bte29YZ4PQ/exec';
-
+    // ====== Envio ======
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPiu12mroORpnRiuJ-LzGcYlUx6aa3bZLQfW1Baz0fUwgiM-md1Ot_H6S1bte29YZ4PQ/exec";
     const form = document.getElementById('formCadastro');
     const btn = document.getElementById('btnEnviar');
     const msg = document.getElementById('msg');
     const autorizacao = document.getElementById('autorizacao');
 
-    // Habilita botão somente quando checkbox for marcado
     autorizacao.addEventListener('change', () => {
       btn.disabled = !autorizacao.checked;
     });
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e)=>{
       e.preventDefault();
 
       if(!validaCPF(cpfInput.value)){
@@ -162,78 +146,43 @@
         return;
       } else { cpfErro.style.display = 'none'; }
 
-      btn.disabled = true; btn.textContent = 'Enviando...'; msg.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      msg.textContent = '';
 
-      const fd = new FormData(form);
-      fd.set('nome_colaborador', document.getElementById('nome').value.trim());
-      fd.set('cpf', document.getElementById('cpf').value.trim());
-      fd.set('idade_crianca', document.getElementById('idade').value.trim());
-      fd.set('resposta_obrigatoria', document.getElementById('resposta').value.trim());
+      const fotoCrianca = document.getElementById('foto_crianca').files[0];
+      const fotoDesenho = document.getElementById('foto_desenho').files[0];
 
-      try{
-        await fetch(SCRIPT_URL, { method:'POST', body:fd, mode:'no-cors' });
+      const payload = {
+        nome_colaborador: document.getElementById('nome').value.trim(),
+        cpf: document.getElementById('cpf').value.trim(),
+        idade_crianca: document.getElementById('idade').value.trim(),
+        resposta_obrigatoria: document.getElementById('resposta').value.trim(),
+        autorizacao: autorizacao.checked ? 'Sim' : 'Não',
+        foto_crianca: fotoCrianca ? await toBase64(fotoCrianca) : '',
+        foto_desenho: fotoDesenho ? await toBase64(fotoDesenho) : ''
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method:'POST',
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" }
+        });
         msg.textContent = '✅ Cadastro enviado com sucesso!';
         msg.className = 'ok';
         form.reset();
         document.getElementById('prev_crianca').innerHTML = '';
         document.getElementById('prev_desenho').innerHTML = '';
         btn.disabled = true;
-      }catch(err){
+      } catch (err) {
         console.error(err);
-        msg.textContent = 'Não foi possível enviar. Verifique a conexão e tente novamente.';
+        msg.textContent = '❌ Erro ao enviar. Tente novamente.';
         msg.className = 'error';
-      }finally{
+      } finally {
         btn.textContent = 'Enviar cadastro';
       }
     });
-    async function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]); // pega só o base64
-    reader.onerror = error => reject(error);
-  });
-}
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  if(!validaCPF(cpfInput.value)){
-    cpfErro.style.display = 'block';
-    return;
-  } else { cpfErro.style.display = 'none'; }
-
-  btn.disabled = true; btn.textContent = 'Enviando...'; msg.textContent = '';
-
-  const fd = new FormData();
-  fd.set('nome_colaborador', document.getElementById('nome').value.trim());
-  fd.set('cpf', document.getElementById('cpf').value.trim());
-  fd.set('idade_crianca', document.getElementById('idade').value.trim());
-  fd.set('resposta_obrigatoria', document.getElementById('resposta').value.trim());
-  fd.set('autorizacao', autorizacao.checked ? 'Sim' : 'Não');
-
-  // Converte arquivos para base64
-  const fotoCrianca = document.getElementById('foto_crianca').files[0];
-  const fotoDesenho = document.getElementById('foto_desenho').files[0];
-  if(fotoCrianca) fd.set('foto_crianca', await toBase64(fotoCrianca));
-  if(fotoDesenho) fd.set('foto_desenho', await toBase64(fotoDesenho));
-
-  try{
-    await fetch(SCRIPT_URL, { method:'POST', body:fd });
-    msg.textContent = '✅ Cadastro enviado com sucesso!';
-    msg.className = 'ok';
-    form.reset();
-    document.getElementById('prev_crianca').innerHTML = '';
-    document.getElementById('prev_desenho').innerHTML = '';
-    btn.disabled = true;
-  }catch(err){
-    console.error(err);
-    msg.textContent = 'Não foi possível enviar. Verifique a conexão e tente novamente.';
-    msg.className = 'error';
-  }finally{
-    btn.textContent = 'Enviar cadastro';
-  }
-});
   </script>
 </body>
 </html>
