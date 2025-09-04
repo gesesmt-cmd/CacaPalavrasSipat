@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 10.59</title>
+    <title>teste 11.06</title>
     <style>
         * {
             margin: 0;
@@ -759,6 +759,7 @@
         }
 
         function showLogin() {
+            resetGame();
             stopTimer();
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
@@ -998,23 +999,25 @@
                 console.log("✅ Dados enviados");
         
                 // Mensagem de parabéns
-                alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
+               // alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
                 // Mostra a tela final
                 showFinalScreen();
-        
-                // Reseta o jogo para novo jogador
-                resetGame();
+               // Reseta o jogo para novo jogador
+                //resetGame();
             })
             .catch(err => console.error("⌐ Erro:", err));
         }
 
         function showFinalScreen() {
-            document.getElementById('game-screen').classList.remove('active');
-            document.getElementById('final-screen').classList.add('active');
-            
-            const finalTime = document.getElementById('timerValue').textContent;
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('finalTime').textContent = finalTime;
+            // esconde a tela do jogo
+            document.getElementById('game-screen').classList.add('hidden');
+            // mostra a tela final
+            document.getElementById('final-screen').classList.remove('hidden');
+
+            // pega tempo e pontuação corretos
+            const finalTime = document.getElementById('timer-display').textContent;
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-time').textContent = finalTime;
         }
         
        function resetGame() {
