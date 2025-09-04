@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 09.44</title>
+    <title>teste 10.59</title>
     <style>
         * {
             margin: 0;
@@ -554,6 +554,26 @@
             <button class="btn" onclick="autoFillWords()">⚡ Preencher Tudo (teste)</button>
         </div>
 
+        <div class="game-over-message hidden" id="game-over-message">
+            <h2>GAME OVER</h2>
+            <p>Sua pontuação chegou a zero. Você não pode mais continuar.</p>
+            <button class="btn" onclick="restartCurrentGame()">Tentar Novamente</button>
+        </div>
+
+        <div class="game-content">
+            <div class="crossword-grid">
+                <div class="grid" id="crossword-grid"></div>
+            </div>
+
+            <div class="clues-section">
+                <div id="vertical-clues" class="clues">
+                    <h3>🔽 Verticais</h3>
+                </div>
+                <div id="horizontal-clues" class="clues">
+                    <h3>➡️ Horizontais</h3>
+                </div>
+            </div>
+        </div>
         <div id="final-screen" class="container hidden">
             <h2>🎉 Jogo Finalizado!</h2>
     
@@ -574,28 +594,6 @@
             </div>
     
             <button class="btn" onclick="showLogin()">Jogar Novamente</button>
-        </div>
-
-
-        <div class="game-over-message hidden" id="game-over-message">
-            <h2>GAME OVER</h2>
-            <p>Sua pontuação chegou a zero. Você não pode mais continuar.</p>
-            <button class="btn" onclick="restartCurrentGame()">Tentar Novamente</button>
-        </div>
-
-        <div class="game-content">
-            <div class="crossword-grid">
-                <div class="grid" id="crossword-grid"></div>
-            </div>
-
-            <div class="clues-section">
-                <div id="vertical-clues" class="clues">
-                    <h3>🔽 Verticais</h3>
-                </div>
-                <div id="horizontal-clues" class="clues">
-                    <h3>➡️ Horizontais</h3>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -855,7 +853,7 @@
             if (nextCell) { e.preventDefault(); nextCell.focus(); }
         }
 
- function checkAnswers() {
+        function checkAnswers() {
             const newlyCompletedWords = new Set();
             const allWordKeys = Object.keys(words);
 
@@ -1001,11 +999,22 @@
         
                 // Mensagem de parabéns
                 alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
+                // Mostra a tela final
+                showFinalScreen();
         
                 // Reseta o jogo para novo jogador
                 resetGame();
             })
             .catch(err => console.error("⌐ Erro:", err));
+        }
+
+        function showFinalScreen() {
+            document.getElementById('game-screen').classList.remove('active');
+            document.getElementById('final-screen').classList.add('active');
+            
+            const finalTime = document.getElementById('timerValue').textContent;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalTime').textContent = finalTime;
         }
         
        function resetGame() {
