@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Cadastro – Desenho teste 15.07</title>
+  <title>Cadastro – SIPAT 2025</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{
@@ -31,6 +31,9 @@
     .file-row{display:grid; grid-template-columns:1fr; gap:10px}
     .preview{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
     .thumb{width:88px; height:88px; border-radius:10px; object-fit:cover; border:2px solid #eee; box-shadow:0 4px 10px rgba(0,0,0,.06)}
+    .checkbox-group{display:flex; align-items:flex-start; gap:8px; margin:18px 0}
+    .checkbox-group input{margin-top:3px; transform:scale(1.2)}
+    .checkbox-group label{font-weight:700; color:#333; margin:0; cursor:pointer}
     .btn{width:100%; border:none; cursor:pointer; padding:14px 22px; border-radius:28px; font-weight:700; font-size:17px; color:#fff; background:linear-gradient(135deg,#e65100 0%,#ff9800 100%); box-shadow:0 10px 24px rgba(230,81,0,.35); transition:transform .15s, box-shadow .2s}
     .btn:hover{transform:translateY(-2px); box-shadow:0 14px 26px rgba(230,81,0,.45)}
     .btn:active{transform:none}
@@ -45,7 +48,7 @@
       <div class="logo">SP</div>
       <h1>Cadastro – SIPAT 2025</h1>
     </div>
-    <p class="sub">Preencha os dados abaixo e anexe as fotos. Os dados serão enviados para uma planilha no Google Sheets.</p>
+    <p class="sub">Leia as Regras do Concurso. Preencha os dados abaixo e anexe as fotos.</p>
 
     <form id="formCadastro" enctype="multipart/form-data">
       <div class="form-group">
@@ -85,13 +88,20 @@
         </div>
       </div>
 
-      <button class="btn" type="submit" id="btnEnviar">Enviar cadastro</button>
+      <div class="checkbox-group">
+        <input type="checkbox" id="autorizacao" required />
+        <label for="autorizacao"><strong>Autorizo o uso da imagem da criança para fins institucionais e de divulgação.</strong></label>
+        <input type="checkbox" id="concordo" required />
+        <label for="concordo"><strong>Declaro que li e concordo com o regulamento do concurso.</strong></label>
+      </div>
+
+      <button class="btn" type="submit" id="btnEnviar" disabled>Enviar cadastro</button>
       <div id="msg" class="muted"></div>
     </form>
   </main>
 
   <script>
-    // ====== Máscara + validação de CPF (igual ao estilo do seu site) ======
+    // ====== Máscara + validação de CPF ======
     const cpfInput = document.getElementById('cpf');
     const cpfErro = document.getElementById('cpfErro');
 
@@ -130,17 +140,22 @@
       previewFile(e.target, document.getElementById('prev_desenho'));
     });
 
-    // ====== Envio ao Google Apps Script (que grava no Google Sheets) ======
+    // ====== Envio ao Google Apps Script ======
     const SCRIPT_URL = 'COLE_AQUI_A_URL_DA_SUA_WEBAPP_DO_APPS_SCRIPT';
 
     const form = document.getElementById('formCadastro');
     const btn = document.getElementById('btnEnviar');
     const msg = document.getElementById('msg');
+    const autorizacao = document.getElementById('autorizacao');
+
+    // Habilita botão somente quando checkbox for marcado
+    autorizacao.addEventListener('change', () => {
+      btn.disabled = !autorizacao.checked;
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Validações básicas
       if(!validaCPF(cpfInput.value)){
         cpfErro.style.display = 'block';
         return;
@@ -149,29 +164,27 @@
       btn.disabled = true; btn.textContent = 'Enviando...'; msg.textContent = '';
 
       const fd = new FormData(form);
-      // Campos de texto explícitos (útil se você quiser padronizar nomes)
       fd.set('nome_colaborador', document.getElementById('nome').value.trim());
       fd.set('cpf', document.getElementById('cpf').value.trim());
       fd.set('idade_crianca', document.getElementById('idade').value.trim());
       fd.set('resposta_obrigatoria', document.getElementById('resposta').value.trim());
 
       try{
-        // Usando no-cors para funcionar mesmo que a Web App não libere CORS.
         await fetch(SCRIPT_URL, { method:'POST', body:fd, mode:'no-cors' });
         msg.textContent = '✅ Cadastro enviado com sucesso!';
         msg.className = 'ok';
         form.reset();
         document.getElementById('prev_crianca').innerHTML = '';
         document.getElementById('prev_desenho').innerHTML = '';
+        btn.disabled = true;
       }catch(err){
         console.error(err);
         msg.textContent = 'Não foi possível enviar. Verifique a conexão e tente novamente.';
         msg.className = 'error';
       }finally{
-        btn.disabled = false; btn.textContent = 'Enviar cadastro';
+        btn.textContent = 'Enviar cadastro';
       }
     });
   </script>
 </body>
 </html>
-
