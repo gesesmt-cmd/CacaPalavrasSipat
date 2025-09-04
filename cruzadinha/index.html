@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 09.34</title>
+    <title>teste 09.44</title>
     <style>
         * {
             margin: 0;
@@ -1008,7 +1008,7 @@
             .catch(err => console.error("⌐ Erro:", err));
         }
         
-        function resetGame() {
+       function resetGame() {
             // Zera variáveis principais
             score = 0;
             currentLevel = 0;
@@ -1018,18 +1018,14 @@
             // Limpa campos de jogador
             currentPlayer = { name: "", cpf: "" };
         
-            // Esconde mensagens de sucesso
-            document.getElementById('success-message').classList.add('hidden');
+            // Esconde telas e volta para login
+            document.getElementById('final-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
         
-            // Volta para tela inicial (se existir) ou reinicia a página
-            if (document.getElementById('player-form')) {
-                document.getElementById('player-form').reset();
-                document.getElementById('game-container').classList.add('hidden');
-                document.getElementById('player-setup').classList.remove('hidden');
-            } else {
-                // alternativa: recarrega tudo
-                location.reload();
-            }
+            // Reseta formulário de login
+            document.getElementById('player-name').value = "";
+            document.getElementById('player-cpf').value = "";
         }
     </script>
 </body>
