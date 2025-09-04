@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 09.50</title>
+    <title>teste 09.56</title>
     <style>
         * {
             margin: 0;
@@ -855,63 +855,49 @@
             if (nextCell) { e.preventDefault(); nextCell.focus(); }
         }
 
- function checkAnswers() {
+         function checkAnswers() {
             const newlyCompletedWords = new Set();
             const allWordKeys = Object.keys(words);
-
+        
             allWordKeys.forEach(wordNum => {
                 const { word, direction, start } = words[wordNum];
                 const [startRow, startCol] = start;
                 let isCorrect = true;
                 let isFilled = true;
-                const wordCells = [];
-
+        
                 for (let i = 0; i < word.length; i++) {
                     const row = direction === 'vertical' ? startRow + 1 + i : startRow;
                     const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
                     const cell = document.getElementById(`cell-${row}-${col}`);
                     const input = cell?.querySelector('input');
-                    wordCells.push(cell);
                     if (!input) { isCorrect = false; isFilled = false; break; }
                     if (!input.value) isFilled = false;
                     if (normalize(input.value) !== normalize(word[i])) isCorrect = false;
                 }
-
-                wordCells.forEach(cell => {
-                    if (cell) {
-                        cell.classList.remove('correct', 'incorrect');
-                        if (isFilled) cell.classList.add(isCorrect ? 'correct' : 'incorrect');
-                    }
-                });
-
-                const clue = document.querySelector(`.clue[data-word="${wordNum}"]`);
-                if (isFilled && isCorrect) {
-                    newlyCompletedWords.add(wordNum);
-                    if (clue) clue.classList.add('completed');
-                } else {
-                    if (clue) clue.classList.remove('completed');
-                }
+        
+                if (isFilled && isCorrect) newlyCompletedWords.add(wordNum);
             });
-
+        
             completedWords = newlyCompletedWords;
             updateProgress();
-
+        
             // quando terminar todas
             if (completedWords.size === allWordKeys.length) {
                 if (currentLevel < levels.length - 1) {
-                    alert(`Parabéns, você completou o Nível ${currentLevel + 1}! Preparando o próximo desafio...`);
+                    alert(`Parabéns, você completou o Nível ${currentLevel + 1}!`);
                     loadLevel(currentLevel + 1);
                 } else {
                     // fim do jogo
                     stopTimer();
                     document.getElementById('game-screen').classList.add('hidden');
                     document.getElementById('final-screen').classList.remove('hidden');
-
+        
                     // preencher dados finais
                     document.getElementById('final-score').textContent = score;
                     document.getElementById('final-time').textContent =
                         document.getElementById('timer-display').textContent;
-
+        
+                    // envia resultados sem resetar a tela
                     if (currentLevel === 1 && !resultsSent) {
                         resultsSent = true;
                         enviarResultadosGoogleSheets();
@@ -998,14 +984,11 @@
             })
             .then(() => {
                 console.log("✅ Dados enviados");
-        
-                // 🔹 Agora NÃO reseta mais aqui
-                // Apenas confirma que os dados foram enviados
-                alert("✅ Seus dados foram enviados com sucesso!");
+                // não reseta, não usa alert
+                // a tela final já está visível
             })
             .catch(err => console.error("⌐ Erro:", err));
         }
-        
        function resetGame() {
             // Zera variáveis principais
             score = 0;
