@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 10.01</title>
+    <title>teste 10.35</title>
     <style>
         * {
             margin: 0;
@@ -981,8 +981,11 @@
         }
 
         window.onload = () => {
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
+            const gameScreen = document.getElementById('game-screen');
+            const loginScreen = document.getElementById('login-screen');
+        
+            if (gameScreen) gameScreen.classList.add('hidden');
+            if (loginScreen) loginScreen.classList.remove('hidden');
         };
         
         function enviarResultadosGoogleSheets() {
