@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 09.56</title>
+    <title>teste 10.01</title>
     <style>
         * {
             margin: 0;
@@ -505,8 +505,8 @@
 </head>
 <body>
     <!-- Tela de Login -->
-    <div id="login-screen" class="container">
-        <h1>🛡️ Cruzadinha SIPAT 2025</h1>
+    <div id="game-screen" class="game-container hidden">
+        <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
         <p class="subtitle">Segurança do Trabalho - Complete seus dados para começar</p>
 
         <form id="login-form" class="login-form">
@@ -525,7 +525,7 @@
             <button type="submit" class="btn">🎮 Começar a Jogar</button>
         </form>
     </div>
-
+    
     <!-- Tela do Jogo -->
     <div id="game-screen" class="game-container hidden">
         <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
@@ -598,7 +598,27 @@
             </div>
         </div>
     </div>
-
+    <div id="final-screen" class="container hidden">
+        <h2>🎉 Jogo Finalizado!</h2>
+    
+        <div class="final-message">
+            "O cuidado gera prevenção, que fortalece a conscientização, despertando o compromisso,
+            que se pratica com colaboração, evolui para a proatividade e resulta em valorização."
+        </div>
+    
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Pontuação Final</div>
+                <div class="info-value" id="final-score"></div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Tempo Total</div>
+                <div class="info-value" id="final-time"></div>
+            </div>
+        </div>
+    
+        <button class="btn" onclick="showLogin()">Jogar Novamente</button>
+    </div>
     <script>
         // --- ESTRUTURA DE NÍVEIS DO JOGO ---
         const levels = [
