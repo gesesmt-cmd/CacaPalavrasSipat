@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.35</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.41</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
     .container {
         background: white;
@@ -483,6 +483,7 @@ let score = INITIAL_SCORE;
 let hintsRemaining = MAX_HINTS;
 let completedWords = new Set();
 let currentPlayer = { name: '', cpf: '' };
+let resultsSent = false;
 
 function normalize(str) { if (!str) return ''; return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase(); }
 function formatCPF(cpf) { cpf = cpf.replace(/\D/g, ''); cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); return cpf; }
@@ -515,6 +516,7 @@ function startGame() {
     secondsElapsed = 0;
     hintsRemaining = MAX_HINTS;
     currentLevel = 0;
+    resultsSent = false; // <-- adicionado aqui
 
     updateScoreDisplay();
     updateHintsDisplay();
@@ -658,45 +660,39 @@ function handleKeyDown(e) {
 }
 
 function checkAnswers() {
-    const newlyCompletedWords = new Set();
+    let allCorrect = true;
     const allWordKeys = Object.keys(words);
-    allWordKeys.forEach(wordNum => {
-        const { word, direction, start } = words[wordNum];
-        const [startRow, startCol] = start;
-        let isCorrect = true, isFilled = true;
-        const wordCells = [];
-        for (let i = 0; i < word.length; i++) {
-            const row = direction === 'vertical' ? startRow + 1 + i : startRow;
-            const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
-            const cell = document.getElementById(`cell-${row}-${col}`);
-            const input = cell?.querySelector('input');
-            wordCells.push(cell);
-            if (!input) { isCorrect = false; isFilled = false; break; }
-            if (!input.value) isFilled = false;
-            if (normalize(input.value) !== normalize(word[i])) isCorrect = false;
-        }
-        wordCells.forEach(cell => {
-            if (cell) {
-                cell.classList.remove('correct', 'incorrect');
-                if (isFilled) cell.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+    allWordKeys.forEach((key, index) => {
+        const word = words[key].toUpperCase();
+        const inputs = document.querySelectorAll(`input[data-word='${key}']`);
+        let wordCorrect = true;
+
+        inputs.forEach((input, idx) => {
+            if (input.value.toUpperCase() !== word[idx]) {
+                wordCorrect = false;
             }
         });
-        const clue = document.querySelector(`.clue[data-word="${wordNum}"]`);
-        if (isFilled && isCorrect) { newlyCompletedWords.add(wordNum); clue.classList.add('completed'); } 
-        else { clue.classList.remove('completed'); }
-    });
-    completedWords = newlyCompletedWords;
-    updateProgress();
 
-       if (completedWords.size === allWordKeys.length) {
+        if (wordCorrect) {
+            inputs.forEach(input => input.disabled = true);
+            completedWords.add(key);
+        } else {
+            allCorrect = false;
+        }
+    });
+
+    if (completedWords.size === allWordKeys.length) {
         if (currentLevel < levels.length - 1) {
+            // Avança para o próximo nível
             alert(`Parabéns, você completou o Nível ${currentLevel + 1}! Preparando o próximo desafio...`);
             loadLevel(currentLevel + 1);
         } else {
+            // Fim de todos os níveis
             stopTimer();
             document.getElementById('success-message').classList.remove('hidden');
-    
-            // Só envia uma vez quando concluir o nível 2 (índice 1)
+
+            // Envia apenas uma vez quando concluir o nível 2
             if (currentLevel === 1 && !resultsSent) {
                 resultsSent = true;
                 enviarResultadosGoogleSheets();
@@ -705,8 +701,7 @@ function checkAnswers() {
     } else {
         document.getElementById('success-message').classList.add('hidden');
     }
-    }
-
+}
 function updateProgress() {
     const totalWords = Object.keys(words).length;
     const percentage = totalWords > 0 ? (completedWords.size / totalWords) * 100 : 0;
