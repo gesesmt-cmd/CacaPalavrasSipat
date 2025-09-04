@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.46</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.50</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
     .container {
         background: white;
@@ -782,24 +782,24 @@ window.onload = () => {
     document.getElementById('login-screen').classList.remove('hidden');
 };
     function enviarResultadosGoogleSheets() {
-    const url = "https://script.google.com/macros/s/AKfycbxBKVBa1tCm3eutygEQYnnKx2k5OHravO6jiAqSj2Gcih4_oMjEr5h0Y4bmvBFlKmG95A/exec"; // cole aqui a URL do seu Apps Script
-    const tempoFinal = document.getElementById("timer-display").textContent;
-
-    const payload = {
-        nome: currentPlayer.name,
-        cpf: currentPlayer.cpf,
-        pontos: score,
-        tempo: tempoFinal
-    };
-
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(res => res.text())
-    .then(data => console.log("✅ Enviado:", data))
-    .catch(err => console.error("❌ Erro:", err));
-}
+    const url = "https://script.google.com/macros/s/AKfycbyOt400cDyxBfJ2uaJYD2anq_WHHNFdlt7UUMo8qrflaDFiLEtyvGQrQ4K9rPyW1yrNhQ/exec";
+        const tempoFinal = document.getElementById("timer-display").textContent;
+    
+        const payload = {
+            nome: currentPlayer.name,
+            cpf: currentPlayer.cpf,
+            pontos: score,
+            tempo: tempoFinal
+        };
+    
+        fetch(url, {
+            method: "POST",
+            mode: "no-cors",  // evita erro de CORS, mas sem resposta
+            body: JSON.stringify(payload),
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(() => console.log("✅ Dados enviados"))
+        .catch(err => console.error("❌ Erro:", err));
+    }
 </script>
 </body> </html>
