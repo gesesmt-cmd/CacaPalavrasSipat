@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Teste 16.00</title>
+  <title>Teste 16.13</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#e65100 0%,#ff9800 50%,#bf360c 100%);min-height:100vh;color:#333;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -85,129 +85,77 @@
   </main>
 
   <script>
-    // ====== CPF ======
-    const cpfInput = document.getElementById('cpf');
-    const cpfErro = document.getElementById('cpfErro');
-    cpfInput.addEventListener('input', (e) => {
-      let v = e.target.value.replace(/\D/g, '');
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      e.target.value = v;
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPiu12mroORpnRiuJ-LzGcYlUx6aa3bZLQfW1Baz0fUwgiM-md1Ot_H6S1bte29YZ4PQ/exec';
+
+  const form = document.getElementById('formCadastro');
+  const btn = document.getElementById('btnEnviar');
+  const msg = document.getElementById('msg');
+  const cpfInput = document.getElementById('cpf');
+  const cpfErro = document.getElementById('cpfErro');
+
+  // Função auxiliar para converter arquivo em base64
+  async function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]); // só o base64
+      reader.onerror = error => reject(error);
     });
-    function validaCPF(cpf){
-      cpf = cpf.replace(/[^\d]/g, '');
-      if(cpf.length !== 11 || /(\d)\1{10}/.test(cpf)) return false;
-      let soma = 0; for(let i=0;i<9;i++) soma += parseInt(cpf.charAt(i))*(10-i);
-      let dig = 11 - (soma % 11); if(dig >= 10) dig = 0; if(dig !== parseInt(cpf.charAt(9))) return false;
-      soma = 0; for(let i=0;i<10;i++) soma += parseInt(cpf.charAt(i))*(11-i);
-      dig = 11 - (soma % 11); if(dig >= 10) dig = 0; return dig === parseInt(cpf.charAt(10));
-    }
+  }
 
-    // ====== Preview ======
-    function previewFile(input, wrap){
-      wrap.innerHTML = '';
-      const f = input.files && input.files[0];
-      if(!f) return;
-      const url = URL.createObjectURL(f);
-      const img = document.createElement('img');
-      img.src = url; img.className = 'thumb';
-      wrap.appendChild(img);
-    }
-    document.getElementById('foto_crianca').addEventListener('change', (e)=> previewFile(e.target, document.getElementById('prev_crianca')));
-    document.getElementById('foto_desenho').addEventListener('change', (e)=> previewFile(e.target, document.getElementById('prev_desenho')));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    // ====== Base64 helper ======
-    async function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]); // só o base64
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+    // valida CPF
+    if(!validaCPF(cpfInput.value)){
+      cpfErro.style.display = 'block';
+      return;
+    } else { cpfErro.style.display = 'none'; }
 
-async function enviarFormulario() {
-  const fotoCrianca = document.getElementById("foto_crianca").files[0];
-  const fotoDesenho = document.getElementById("foto_desenho").files[0];
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    msg.textContent = '';
 
-  const payload = {
-    nome: document.getElementById("nome").value,
-    cpf: document.getElementById("cpf").value,
-    score: 100,
-    time: "01:23",
-    word: "teste",
-    date: new Date().toISOString(),
-    foto_crianca: fotoCrianca ? await toBase64(fotoCrianca) : "",
-    foto_desenho: fotoDesenho ? await toBase64(fotoDesenho) : ""
-  };
+    // coleta dados
+    const payload = {
+      nome_colaborador: document.getElementById('nome').value.trim(),
+      cpf: document.getElementById('cpf').value.trim(),
+      idade_crianca: document.getElementById('idade').value.trim(),
+      resposta_obrigatoria: document.getElementById('resposta').value.trim(),
+      autorizacao: document.getElementById('autorizacao').checked ? 'Sim' : 'Não',
+      concordo: document.getElementById('concordo').checked ? 'Sim' : 'Não'
+    };
 
-  await fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" },
-    mode: "no-cors" // evita erro de CORS
-  });
+    // adiciona fotos convertidas em base64
+    const fotoCrianca = document.getElementById('foto_crianca').files[0];
+    const fotoDesenho = document.getElementById('foto_desenho').files[0];
+    if(fotoCrianca) payload.foto_crianca = await toBase64(fotoCrianca);
+    if(fotoDesenho) payload.foto_desenho = await toBase64(fotoDesenho);
 
-  alert("Enviado!");
-}
+    try {
+      // envio com no-cors → não dá pra ler resposta
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        mode: "no-cors"
+      });
 
-    // ====== Envio ======
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPiu12mroORpnRiuJ-LzGcYlUx6aa3bZLQfW1Baz0fUwgiM-md1Ot_H6S1bte29YZ4PQ/exec";
-    const form = document.getElementById('formCadastro');
-    const btn = document.getElementById('btnEnviar');
-    const msg = document.getElementById('msg');
-    const autorizacao = document.getElementById('autorizacao');
-
-    autorizacao.addEventListener('change', () => {
-      btn.disabled = !autorizacao.checked;
-    });
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-
-      if(!validaCPF(cpfInput.value)){
-        cpfErro.style.display = 'block';
-        return;
-      } else { cpfErro.style.display = 'none'; }
-
+      msg.textContent = '✅ Cadastro enviado com sucesso!';
+      msg.className = 'ok';
+      form.reset();
+      document.getElementById('prev_crianca').innerHTML = '';
+      document.getElementById('prev_desenho').innerHTML = '';
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
-      msg.textContent = '';
 
-      const fotoCrianca = document.getElementById('foto_crianca').files[0];
-      const fotoDesenho = document.getElementById('foto_desenho').files[0];
-
-      const payload = {
-        nome_colaborador: document.getElementById('nome').value.trim(),
-        cpf: document.getElementById('cpf').value.trim(),
-        idade_crianca: document.getElementById('idade').value.trim(),
-        resposta_obrigatoria: document.getElementById('resposta').value.trim(),
-        autorizacao: autorizacao.checked ? 'Sim' : 'Não',
-        foto_crianca: fotoCrianca ? await toBase64(fotoCrianca) : '',
-        foto_desenho: fotoDesenho ? await toBase64(fotoDesenho) : ''
-      };
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method:'POST',
-          body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" }
-        });
-        msg.textContent = '✅ Cadastro enviado com sucesso!';
-        msg.className = 'ok';
-        form.reset();
-        document.getElementById('prev_crianca').innerHTML = '';
-        document.getElementById('prev_desenho').innerHTML = '';
-        btn.disabled = true;
-      } catch (err) {
-        console.error(err);
-        msg.textContent = '❌ Erro ao enviar. Tente novamente.';
-        msg.className = 'error';
-      } finally {
-        btn.textContent = 'Enviar cadastro';
-      }
-    });
-  </script>
+    } catch(err) {
+      console.error(err);
+      msg.textContent = '❌ Não foi possível enviar. Tente novamente.';
+      msg.className = 'error';
+    } finally {
+      btn.textContent = 'Enviar cadastro';
+    }
+  });
+</script>
 </body>
 </html>
