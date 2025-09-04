@@ -1,201 +1,992 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste 08.59</title>
-  <style>
-    /* --- ESTILOS EXISTENTES --- */
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ff6b35, #f7931e, #ff9500);
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #333;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste 08.43</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .hidden { display: none !important; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ff9500);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
 
-    .container, .game-container {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
-      width: 100%;
-      max-width: 1400px;
-    }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
 
-    .btn {
-      background: linear-gradient(45deg, #ff6b35, #f7931e);
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      margin: 10px;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-    }
-    .btn:hover { transform: translateY(-3px); }
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 1400px;
+            width: 100%;
+        }
 
-    /* --- NOVOS ESTILOS DA TELA FINAL --- */
-    #final-screen {
-      text-align: center;
-      max-width: 800px;
-    }
+        h1 {
+            text-align: center;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
 
-    #final-screen h2 {
-      color: #ff6b35;
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
 
-    .final-message {
-      padding: 20px;
-      border-radius: 15px;
-      margin: 20px 0;
-      font-size: 18px;
-      font-weight: bold;
-      background: linear-gradient(45deg, #4caf50, #8bc34a);
-      color: white;
-    }
+        /* Estilos do formulário de login */
+        .login-form {
+            margin-bottom: 30px;
+        }
 
-    .game-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 15px;
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
-    }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
 
-    .info-label {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 5px;
-      text-transform: uppercase;
-    }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ff6b35;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
 
-    .info-value {
-      font-size: 18px;
-      font-weight: bold;
-      color: #ff6b35;
-    }
-  </style>
+        .form-group input:focus {
+            outline: none;
+            border-color: #f7931e;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .game-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .crossword-grid {
+            background: #f8f9fa;
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(21, 30px);
+            grid-template-rows: repeat(21, 30px);
+            gap: 1px;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            font-weight: bold;
+            font-size: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .cell.blocked {
+            background: #ff6b35;
+            border: 1px solid #f7931e;
+            color: white;
+        }
+
+        .cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            background: transparent;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .cell input:focus {
+            background: #ff6b35;
+            color: white;
+            box-shadow: 0 0 5px rgba(255, 107, 53, 0.5);
+        }
+
+        .cell.correct {
+            background: #4caf50;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        .cell.incorrect {
+            background: #f44336;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 16px;
+            color: #000000;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .clues-section {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border: 2px solid #ff6b35;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 300px;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .clues h3 {
+            color: #ff6b35;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f7931e;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        .clue {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b35;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .clue:hover {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .clue.completed {
+            background: #4caf50;
+            color: white;
+            border-left-color: #2e7d32;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+            border: 2px solid #ff6b35;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .player-info {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid #ff6b35;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-info h3 {
+            color: #ff6b35;
+            margin: 0 0 10px 0;
+        }
+
+        .player-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .success-message {
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+            animation: fadeInUp 0.5s ease-in-out;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .game-over-message {
+            background: linear-gradient(45deg, #f44336, #ff5722);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            animation: fadeInUp 0.5s ease-in-out;
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);
+        }
+
+        .game-over-message h2 {
+            margin-top: 0;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+                width: 95%;
+            }
+            
+            .game-container {
+                padding: 15px;
+                margin: 5px;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .game-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(21, 22px);
+                grid-template-rows: repeat(21, 22px);
+            }
+            
+            .cell {
+                width: 22px;
+                height: 22px;
+                font-size: 10px;
+            }
+
+            .number {
+                font-size: 12px;
+                width: 14px;
+                height: 14px;
+                top: 1px;
+                left: 1px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 14px;
+                margin: 8px;
+            }
+
+            .clues-section {
+                min-width: 250px;
+                max-width: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 2px;
+                width: 98%;
+            }
+            
+            .game-container {
+                padding: 10px;
+                margin: 2px;
+                width: 98%;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+                margin-bottom: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 12px;
+                margin: 5px;
+            }
+            
+            .form-group input {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .clues-section {
+                min-width: 200px;
+                max-width: 300px;
+                padding: 15px;
+            }
+            
+            .clue {
+                font-size: 12px;
+                padding: 8px;
+            }
+            
+            .player-info {
+                padding: 12px;
+            }
+
+            .number {
+                font-size: 10px;
+                width: 12px;
+                height: 12px;
+                top: 1px;
+                left: 1px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Tela de Login -->
-  <div id="login-screen" class="container">
-    <h1>🛡️ Cruzadinha SIPAT 2025</h1>
-    <form id="login-form">
-      <div>
-        <label for="player-name">Nome Completo:</label>
-        <input type="text" id="player-name" required>
-      </div>
-      <div>
-        <label for="player-cpf">CPF:</label>
-        <input type="text" id="player-cpf" required maxlength="14">
-      </div>
-      <button type="submit" class="btn">🎮 Começar a Jogar</button>
-    </form>
-  </div>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="container">
+        <h1>🛡️ Cruzadinha SIPAT 2025</h1>
+        <p class="subtitle">Segurança do Trabalho - Complete seus dados para começar</p>
 
-  <!-- Tela do Jogo -->
-  <div id="game-screen" class="game-container hidden">
-    <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
-    <p><strong>Tempo:</strong> <span id="timer-display">00:00</span></p>
-    <p><strong>Pontuação:</strong> <span id="score-display">100</span></p>
-
-    <div class="controls">
-      <button class="btn" onclick="checkAnswers()">✓ Verificar Respostas</button>
-      <button class="btn" onclick="showLogin()">👤 Novo Jogador</button>
+        <form id="login-form" class="login-form">
+            <div class="form-group">
+                <label for="player-name">Nome Completo:</label>
+                <input type="text" id="player-name" placeholder="Digite seu nome completo" required>
+                <div class="error-message" id="name-error">Por favor, digite seu nome completo.</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="player-cpf">CPF:</label>
+                <input type="text" id="player-cpf" placeholder="000.000.000-00" maxlength="14" required>
+                <div class="error-message" id="cpf-error">Por favor, digite um CPF válido.</div>
+            </div>
+            
+            <button type="submit" class="btn">🎮 Começar a Jogar</button>
+        </form>
     </div>
 
-    <div id="crossword-grid"></div>
-  </div>
+    <!-- Tela do Jogo -->
+    <div id="game-screen" class="game-container hidden">
+        <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
+        
+        <div class="player-info">
+            <h3>🏆 Jogador</h3>
+            <p><strong>Nome:</strong> <span id="display-name"></span></p>
+            <p><strong>CPF:</strong> <span id="display-cpf"></span></p>
+            <p><strong>Pontuação:</strong> <span id="score-display">100</span></p>
+            <p><strong>Dicas Restantes:</strong> <span id="hints-display">5</span></p>
+            <p><strong>Tempo:</strong> <span id="timer-display">00:00</span></p>
+        </div>
 
-  <!-- Tela Final -->
-  <div id="final-screen" class="container hidden">
-    <h2>🎉 Jogo Finalizado!</h2>
+        <div class="progress">
+            <p><strong>Progresso: <span id="progress-text">0/10 palavras</span></strong></p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
 
-    <div class="final-message">
-      "O cuidado gera prevenção, que fortalece a conscientização, despertando o compromisso,
-      que se pratica com colaboração, evolui para a proatividade e resulta em valorização."
+        <div class="controls">
+            <button class="btn" onclick="checkAnswers()">✓ Verificar Respostas</button>
+            <button class="btn" onclick="clearGrid()">🔄 Limpar Nível</button>
+            <button class="btn" onclick="showHint()">💡 Dica (-20 pts)</button>
+            <button class="btn" onclick="showLogin()">👤 Novo Jogador</button>
+            <button class="btn" onclick="autoFillWords()">⚡ Preencher Tudo (teste)</button>
+        </div>
+
+        <div class="success-message" id="success-message">
+            🎉 Parabéns! Você completou TODOS os desafios! Excelente conhecimento em segurança do trabalho! 🎉
+        </div>
+
+        <div class="game-over-message hidden" id="game-over-message">
+            <h2>GAME OVER</h2>
+            <p>Sua pontuação chegou a zero. Você não pode mais continuar.</p>
+            <button class="btn" onclick="restartCurrentGame()">Tentar Novamente</button>
+        </div>
+
+        <div class="game-content">
+            <div class="crossword-grid">
+                <div class="grid" id="crossword-grid"></div>
+            </div>
+
+            <div class="clues-section">
+                <div id="vertical-clues" class="clues">
+                    <h3>🔽 Verticais</h3>
+                </div>
+                <div id="horizontal-clues" class="clues">
+                    <h3>➡️ Horizontais</h3>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="game-info">
-      <div class="info-item">
-        <div class="info-label">Pontuação Final</div>
-        <div class="info-value" id="final-score"></div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Tempo Total</div>
-        <div class="info-value" id="final-time"></div>
-      </div>
-    </div>
+    <script>
+        // --- ESTRUTURA DE NÍVEIS DO JOGO ---
+        const levels = [
+            { // Nível 1
+                words: {
+                    1: { word: "CONSCIENTIZACAO", direction: "vertical", start: [1, 9] },
+                    2: { word: "CUIDADO", direction: "horizontal", start: [2, 8] },//LINHA-COLUNA
+                    3: { word: "COLABORACAO", direction: "horizontal", start: [14, 0] },
+                    4: { word: "INDIVIDUAL", direction: "horizontal", start: [9, 10] },
+                    5: { word: "COMPROMISSO", direction: "horizontal", start: [6, 8] },
+                    6: { word: "MONTADOR", direction: "vertical", start: [12, 2] },
+                    7: { word: "ATERRAMENTO", direction: "vertical", start: [9, 7] },
+                    8: { word: "PERNEIRA", direction: "vertical", start: [5, 12] },
+                    9: { word: "ENGENHEIRO", direction: "horizontal", start: [4, 7] },
+                    10: { word: "RUIDO", direction: "vertical", start: [5, 13] }
+                },
+                clues: {
+                    vertical: [
+                        { num: 1, text: "Entender o 'porquê' de cada procedimento" },
+                        { num: 6, text: "Especialista em estruturas" },
+                        { num: 7, text: "Procedimento contra choque elétrico" },
+                        { num: 8, text: "EPI de couro para pernas contra animais peçonhentos" },
+                        { num: 10, text: "Exposição pode causar perda auditiva" }
+                    ],
+                    horizontal: [
+                        { num: 2, text: "Estado de atenção permanente ao risco" },
+                        { num: 3, text: "Cuidar da segurança dos colegas" },
+                        { num: 4, text: "Não se divide, nem compartilha" },
+                        { num: 5, text: "Pacto com a segurança da equipe" },
+                        { num: 9, text: "Responsável técnico pela obra segura" }
+                    ]
+                }
+            },
+            { // Nível 2
+                words: {
+                    1: { word: "VALORIZACAO", direction: "horizontal", start: [6, 0] },
+                    2: { word: "CAPACETE", direction: "horizontal", start: [18, 5] },
+                    3: { word: "PROATIVIDADE", direction: "horizontal", start: [13, 4] },
+                    4: { word: "BOTINA", direction: "vertical", start: [4, 4] },
+                    5: { word: "PREVENCAO", direction: "vertical", start: [11, 6] },
+                    6: { word: "ENCARREGADO", direction: "vertical", start: [0, 5] },
+                    7: { word: "OCULOS", direction: "vertical", start: [2, 3] },
+                    8: { word: "SOTERRAMENTO", direction: "horizontal", start: [7, 1] },
+                    9: { word: "LINHADEVIDA", direction: "horizontal", start: [17, 3] },
+                    10: { word: "LUVAS", direction: "vertical", start: [2, 2] }
+                },
+                clues: {
+                    vertical: [
+                        { num: 4, text: "Calçado de segurança para os pés" },
+                        { num: 5, text: "É sempre melhor que remediar" },
+                        { num: 6, text: "Líder direto da equipe na obra" },
+                        { num: 7, text: "Proteção indispensável para os olhos" },
+                        { num: 10, text: "Protegem as mãos de diversos riscos" }
+                    ],
+                    horizontal: [
+                        { num: 1, text: "Reconhecimento da importância da vida e do trabalho" },
+                        { num: 2, text: "Proteção essencial para a cabeça" },
+                        { num: 3, text: "Agir antecipadamente para evitar acidentes" },
+                        { num: 8, text: "Risco grave presente em escavações" },
+                        { num: 9, text: "Equipamento crucial para trabalho em altura" }
+                    ]
+                }
+            }
+        ];
 
-    <button class="btn" onclick="showLogin()">Jogar Novamente</button>
-  </div>
+        // Configurações do Jogo
+        const INITIAL_SCORE = 100;
+        const HINT_COST = 20;
+        const MAX_HINTS = 5;
 
-  <script>
-    let score = 100;
-    let secondsElapsed = 0;
-    let timerInterval = null;
+        // Variáveis de Estado do Jogo
+        let words = {}; // Será preenchido pela função loadLevel
+        let currentLevel = 0;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let score = INITIAL_SCORE;
+        let hintsRemaining = MAX_HINTS;
+        let completedWords = new Set();
+        let currentPlayer = { name: '', cpf: '' };
+        let resultsSent = false;
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('game-screen').classList.remove('hidden');
-      startTimer();
-    });
+        function normalize(str) { if (!str) return ''; return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase(); }
+        function formatCPF(cpf) { cpf = cpf.replace(/\D/g, ''); cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); return cpf; }
+        function validateCPF(cpf) { cpf = cpf.replace(/\D/g, ''); if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; let sum = 0, remainder; for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i); remainder = (sum * 10) % 11; if ((remainder === 10) || (remainder === 11)) remainder = 0; if (remainder !== parseInt(cpf.substring(9, 10))) return false; sum = 0; for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i); remainder = (sum * 10) % 11; if ((remainder === 10) || (remainder === 11)) remainder = 0; if (remainder !== parseInt(cpf.substring(10, 11))) return false; return true; }
 
-    function startTimer() {
-      stopTimer();
-      timerInterval = setInterval(() => {
-        secondsElapsed++;
-        updateTimerDisplay();
-      }, 1000);
-    }
-    function stopTimer() { clearInterval(timerInterval); }
-    function updateTimerDisplay() {
-      const minutes = Math.floor(secondsElapsed / 60);
-      const seconds = secondsElapsed % 60;
-      document.getElementById('timer-display').textContent =
-        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
+        document.getElementById('player-cpf').addEventListener('input', (e) => e.target.value = formatCPF(e.target.value));
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('player-name').value.trim();
+            const cpf = document.getElementById('player-cpf').value;
+            let valid = true;
+            document.getElementById('name-error').style.display = name.length < 3 ? 'block' : 'none';
+            if (name.length < 3) valid = false;
+            document.getElementById('cpf-error').style.display = !validateCPF(cpf) ? 'block' : 'none';
+            if (!validateCPF(cpf)) valid = false;
+            if (valid) {
+                currentPlayer = { name, cpf };
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                startGame();
+            }
+        });
 
-    function checkAnswers() {
-      // simulação de final do jogo
-      stopTimer();
-      document.getElementById('game-screen').classList.add('hidden');
-      document.getElementById('final-screen').classList.remove('hidden');
-      document.getElementById('final-score').textContent = score;
-      document.getElementById('final-time').textContent =
-        document.getElementById('timer-display').textContent;
-    }
+        function startGame() {
+            document.getElementById('display-name').textContent = currentPlayer.name;
+            document.getElementById('display-cpf').textContent = currentPlayer.cpf;
+            
+            // Reset geral para um novo jogador
+            score = INITIAL_SCORE;
+            secondsElapsed = 0;
+            hintsRemaining = MAX_HINTS;
+            currentLevel = 0;
+            resultsSent = false; // <-- adicionado aqui
 
-    function showLogin() {
-      stopTimer();
-      secondsElapsed = 0;
-      document.getElementById('timer-display').textContent = "00:00";
-      document.getElementById('login-screen').classList.remove('hidden');
-      document.getElementById('game-screen').classList.add('hidden');
-      document.getElementById('final-screen').classList.add('hidden');
-    }
-  </script>
+            updateScoreDisplay();
+            updateHintsDisplay();
+            
+            loadLevel(currentLevel);
+            startTimer();
+        }
+
+        function restartCurrentGame() {
+            // Reinicia a pontuação e dicas para tentar o nível atual novamente
+            score = INITIAL_SCORE;
+            hintsRemaining = MAX_HINTS;
+            updateScoreDisplay();
+            updateHintsDisplay();
+            
+            // Esconde mensagens e reabilita botões
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('game-over-message').classList.add('hidden');
+            document.querySelectorAll('.controls .btn').forEach(btn => btn.disabled = false);
+
+            clearGridInputs(); // Apenas limpa os inputs do nível atual
+        }
+
+        function loadLevel(levelIndex) {
+            currentLevel = levelIndex;
+            const levelData = levels[levelIndex];
+            words = levelData.words;
+
+            document.getElementById('game-title').textContent = `🛡️ Cruzadinha - Nível ${levelIndex + 1}`;
+
+            // Limpa e preenche as dicas
+            const vCluesContainer = document.getElementById('vertical-clues');
+            const hCluesContainer = document.getElementById('horizontal-clues');
+            vCluesContainer.innerHTML = '<h3>🔽 Verticais</h3>';
+            hCluesContainer.innerHTML = '<h3>➡️ Horizontais</h3>';
+
+            levelData.clues.vertical.forEach(clue => {
+                vCluesContainer.innerHTML += `<div class="clue" data-word="${clue.num}"><strong>${clue.num}.</strong> ${clue.text}</div>`;
+            });
+            levelData.clues.horizontal.forEach(clue => {
+                hCluesContainer.innerHTML += `<div class="clue" data-word="${clue.num}"><strong>${clue.num}.</strong> ${clue.text}</div>`;
+            });
+
+            completedWords.clear();
+            createGrid();
+            updateProgress();
+        }
+
+        function showLogin() {
+            stopTimer();
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('player-name').value = '';
+            document.getElementById('player-cpf').value = '';
+        }
+
+        function startTimer() { stopTimer(); timerInterval = setInterval(() => { secondsElapsed++; updateTimerDisplay(); }, 1000); }
+        function stopTimer() { clearInterval(timerInterval); }
+        function updateTimerDisplay() {
+            const minutes = Math.floor(secondsElapsed / 60);
+            const seconds = secondsElapsed % 60;
+            document.getElementById('timer-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function updateScoreDisplay() { document.getElementById('score-display').textContent = score; }
+        function updateHintsDisplay() { document.getElementById('hints-display').textContent = hintsRemaining; }
+
+        function handleGameOver() {
+            stopTimer();
+            document.getElementById('game-over-message').classList.remove('hidden');
+            document.querySelectorAll('.controls .btn').forEach(btn => {
+                if (!btn.onclick || (btn.onclick.toString().indexOf('showLogin') === -1 && btn.onclick.toString().indexOf('restartCurrentGame') === -1)) {
+                    btn.disabled = true;
+                }
+            });
+        }
+
+        function createGrid() {
+            const grid = document.getElementById('crossword-grid');
+            grid.innerHTML = '';
+            for (let row = 0; row < 21; row++) {
+                for (let col = 0; col < 21; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell blocked';
+                    cell.id = `cell-${row}-${col}`;
+                    grid.appendChild(cell);
+                }
+            }
+            Object.keys(words).forEach(wordNum => {
+                const { word, direction, start } = words[wordNum];
+                const [startRow, startCol] = start;
+                const numberCell = document.getElementById(`cell-${startRow}-${startCol}`);
+                if (numberCell) numberCell.innerHTML = `<span class="number">${wordNum}</span>`;
+                for (let i = 0; i < word.length; i++) {
+                    const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+                    const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+                    const cell = document.getElementById(`cell-${row}-${col}`);
+                    if (cell) {
+                        cell.className = 'cell';
+                        if (!cell.querySelector('input')) {
+                            cell.innerHTML = `<input type="text" maxlength="1" data-row="${row}" data-col="${col}">`;
+                        }
+                    }
+                }
+            });
+            grid.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', (e) => e.target.value = e.target.value.toUpperCase());
+                input.addEventListener('keydown', handleKeyDown);
+            });
+        }
+
+        function autoFillWords() {
+            Object.keys(words).forEach(wordNum => {
+                const { word, direction, start } = words[wordNum];
+                const [startRow, startCol] = start;
+                for (let i = 0; i < word.length; i++) {
+                    const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+                    const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+                    const input = document.getElementById(`cell-${row}-${col}`)?.querySelector('input');
+                    if (input) {
+                        input.value = word[i]; // coloca a letra
+                    }
+                }
+            });
+
+            // já marca como completo
+            checkAnswers();
+        }
+
+        function handleKeyDown(e) {
+            const row = parseInt(e.target.dataset.row);
+            const col = parseInt(e.target.dataset.col);
+            let nextCell;
+            switch(e.key) {
+                case 'ArrowUp': nextCell = document.querySelector(`input[data-row="${row - 1}"][data-col="${col}"]`); break;
+                case 'ArrowDown': nextCell = document.querySelector(`input[data-row="${row + 1}"][data-col="${col}"]`); break;
+                case 'ArrowLeft': nextCell = document.querySelector(`input[data-row="${row}"][data-col="${col - 1}"]`); break;
+                case 'ArrowRight': nextCell = document.querySelector(`input[data-row="${row}"][data-col="${col + 1}"]`); break;
+                case 'Backspace': if (!e.target.value) nextCell = document.querySelector(`input[data-row="${row}"][data-col="${col - 1}"]`); break;
+            }
+            if (nextCell) { e.preventDefault(); nextCell.focus(); }
+        }
+
+        function checkAnswers() {
+            const newlyCompletedWords = new Set();
+            const allWordKeys = Object.keys(words);
+
+            allWordKeys.forEach(wordNum => {
+                const { word, direction, start } = words[wordNum];
+                const [startRow, startCol] = start;
+                let isCorrect = true;
+                let isFilled = true;
+                const wordCells = [];
+
+                for (let i = 0; i < word.length; i++) {
+                    const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+                    const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+                    const cell = document.getElementById(`cell-${row}-${col}`);
+                    const input = cell?.querySelector('input');
+                    wordCells.push(cell);
+                    if (!input) { isCorrect = false; isFilled = false; break; }
+                    if (!input.value) isFilled = false;
+                    if (normalize(input.value) !== normalize(word[i])) isCorrect = false;
+                }
+
+                // atualiza classes visuais das células
+                wordCells.forEach(cell => {
+                    if (cell) {
+                        cell.classList.remove('correct', 'incorrect');
+                        if (isFilled) cell.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                });
+
+                const clue = document.querySelector(`.clue[data-word="${wordNum}"]`);
+                if (isFilled && isCorrect) {
+                    newlyCompletedWords.add(wordNum);
+                    if (clue) clue.classList.add('completed');
+                } else {
+                    if (clue) clue.classList.remove('completed');
+                }
+            });
+
+            // atualiza o conjunto de palavras completadas e a barra de progresso
+            completedWords = newlyCompletedWords;
+            updateProgress();
+
+            // Verifica se todas as palavras do nível atual foram completadas
+            if (completedWords.size === allWordKeys.length) {
+                if (currentLevel < levels.length - 1) {
+                    // Avança para o próximo nível
+                    alert(`Parabéns, você completou o Nível ${currentLevel + 1}! Preparando o próximo desafio...`);
+                    loadLevel(currentLevel + 1);
+                } else {
+                    // Fim de todos os níveis
+                    stopTimer();
+                    document.getElementById('success-message').classList.remove('hidden');
+
+                    // Envia os resultados só uma vez quando concluir o nível 2 (índice 1)
+                    if (currentLevel === 1 && !resultsSent) {
+                        resultsSent = true;
+                        enviarResultadosGoogleSheets();
+                    }
+                }
+            } else {
+                document.getElementById('success-message').classList.add('hidden');
+            }
+        }
+        
+        function updateProgress() {
+            const totalWords = Object.keys(words).length;
+            const percentage = totalWords > 0 ? (completedWords.size / totalWords) * 100 : 0;
+            document.getElementById('progress-text').textContent = `${completedWords.size}/${totalWords} palavras`;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+        }
+
+        function clearGrid() {
+            // Limpa apenas os inputs e o status do nível atual
+            clearGridInputs();
+            completedWords.clear();
+            updateProgress();
+        }
+
+        function clearGridInputs() {
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+                input.parentElement.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('.clue').forEach(clue => clue.classList.remove('completed'));
+        }
+
+        function showHint() {
+            if (hintsRemaining <= 0) { alert("Você não tem mais dicas disponíveis."); return; }
+            if (score < HINT_COST) { alert(`Você precisa de pelo menos ${HINT_COST} pontos para usar uma dica.`); return; }
+            const uncompletedWords = Object.keys(words).filter(num => !completedWords.has(num));
+            if (uncompletedWords.length === 0) { alert('🎉 Todas as palavras neste nível já estão completas!'); return; }
+            const randomWordNum = uncompletedWords[Math.floor(Math.random() * uncompletedWords.length)];
+            const { word, direction, start } = words[randomWordNum];
+            const [startRow, startCol] = start;
+            let emptyInput = null, letterToReveal = '';
+            for (let i = 0; i < word.length; i++) {
+                 const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+                 const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+                 const input = document.getElementById(`cell-${row}-${col}`).querySelector('input');
+                 if (!input.value) { emptyInput = input; letterToReveal = word[i]; break; }
+            }
+            if (emptyInput) {
+                hintsRemaining--;
+                score -= HINT_COST;
+                updateHintsDisplay();
+                updateScoreDisplay();
+                emptyInput.value = letterToReveal;
+                emptyInput.focus();
+                const clue = document.querySelector(`.clue[data-word="${randomWordNum}"]`);
+                clue.style.background = '#f39c12';
+                setTimeout(() => { if (!clue.classList.contains('completed')) { clue.style.background = ''; } }, 2000);
+                alert(`💡 Dica usada! -${HINT_COST} pontos. Uma letra da palavra ${randomWordNum} foi revelada!`);
+                if (score <= 0) { handleGameOver(); }
+            } else {
+                alert('💡 Uma palavra incompleta foi sorteada, mas ela já está totalmente preenchida. Tente verificar as respostas ou use a dica novamente.');
+            }
+        }
+
+        window.onload = () => {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        };
+        
+        function enviarResultadosGoogleSheets() {
+            const url = "https://script.google.com/macros/s/AKfycbyOt400cDyxBfJ2uaJYD2anq_WHHNFdlt7UUMo8qrflaDFiLEtyvGQrQ4K9rPyW1yrNhQ/exec"; // substitua pela sua URL
+            const tempoFinal = document.getElementById("timer-display").textContent;
+        
+            const payload = {
+                nome: currentPlayer.name,
+                cpf: currentPlayer.cpf,
+                pontos: score,
+                tempo: tempoFinal
+            };
+        
+            fetch(url, {
+                method: "POST",
+                mode: "no-cors",  // evita erro de CORS
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(() => {
+                console.log("✅ Dados enviados");
+        
+                // Mensagem de parabéns
+                alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
+        
+                // Reseta o jogo para novo jogador
+                resetGame();
+            })
+            .catch(err => console.error("⌐ Erro:", err));
+        }
+        
+        function resetGame() {
+            // Zera variáveis principais
+            score = 0;
+            currentLevel = 0;
+            completedWords.clear();
+            resultsSent = false;
+        
+            // Limpa campos de jogador
+            currentPlayer = { name: "", cpf: "" };
+        
+            // Esconde mensagens de sucesso
+            document.getElementById('success-message').classList.add('hidden');
+        
+            // Volta para tela inicial (se existir) ou reinicia a página
+            if (document.getElementById('player-form')) {
+                document.getElementById('player-form').reset();
+                document.getElementById('game-container').classList.add('hidden');
+                document.getElementById('player-setup').classList.remove('hidden');
+            } else {
+                // alternativa: recarrega tudo
+                location.reload();
+            }
+        }
+    </script>
 </body>
 </html>
