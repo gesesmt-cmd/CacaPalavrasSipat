@@ -547,11 +547,11 @@
         </div>
 
         <div class="controls">
-            <button class="btn" onclick="checkAnswers()">✓ Verificar Respostas</button>
+            <button class="btn" onclick="checkAnswers()">✓ Concluir</button>
             <button class="btn" onclick="clearGrid()">🔄 Limpar Nível</button>
             <button class="btn" onclick="showHint()">💡 Dica (-20 pts)</button>
             <button class="btn" onclick="showLogin()">👤 Novo Jogador</button>
-            <button class="btn" onclick="autoFillWords()">⚡ Preencher Tudo (teste)</button>
+            <!--  <button class="btn" onclick="autoFillWords()">⚡ Preencher Tudo (teste)</button> -->
         </div>
 
         <div class="game-over-message hidden" id="game-over-message">
@@ -822,23 +822,23 @@
             });
         }
 
-        function autoFillWords() {
-            Object.keys(words).forEach(wordNum => {
-                const { word, direction, start } = words[wordNum];
-                const [startRow, startCol] = start;
-                for (let i = 0; i < word.length; i++) {
-                    const row = direction === 'vertical' ? startRow + 1 + i : startRow;
-                    const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
-                    const input = document.getElementById(`cell-${row}-${col}`)?.querySelector('input');
-                    if (input) {
-                        input.value = word[i]; // coloca a letra
-                    }
-                }
-            });
+     //  function autoFillWords() {
+       //     Object.keys(words).forEach(wordNum => {
+        //        const { word, direction, start } = words[wordNum];
+      //          const [startRow, startCol] = start;
+      //          for (let i = 0; i < word.length; i++) {
+       //             const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+       //             const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+        //            const input = document.getElementById(`cell-${row}-${col}`)?.querySelector('input');
+        //            if (input) {
+       //                 input.value = word[i]; // coloca a letra
+        //            }
+        //        }
+       //     });
 
             // já marca como completo
-            checkAnswers();
-        }
+      //      checkAnswers();
+     //   } 
 
         function handleKeyDown(e) {
             const row = parseInt(e.target.dataset.row);
