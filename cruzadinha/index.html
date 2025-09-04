@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 17.25</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.35</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
     .container {
         background: white;
@@ -688,24 +688,24 @@ function checkAnswers() {
     completedWords = newlyCompletedWords;
     updateProgress();
 
-    if (completedWords.size === allWordKeys.length) {
+       if (completedWords.size === allWordKeys.length) {
         if (currentLevel < levels.length - 1) {
-            // Avança para o próximo nível
             alert(`Parabéns, você completou o Nível ${currentLevel + 1}! Preparando o próximo desafio...`);
             loadLevel(currentLevel + 1);
         } else {
-            // Fim de todos os níveis
             stopTimer();
             document.getElementById('success-message').classList.remove('hidden');
-            
-            // Se terminou o nível 2 (10/10 palavras)
-            if (currentLevel === levels.length - 1 && completedWords.size === Object.keys(words).length) {
+    
+            // Só envia uma vez quando concluir o nível 2 (índice 1)
+            if (currentLevel === 1 && !resultsSent) {
+                resultsSent = true;
                 enviarResultadosGoogleSheets();
             }
-        } else {
+        }
+    } else {
         document.getElementById('success-message').classList.add('hidden');
     }
-}
+    }
 
 function updateProgress() {
     const totalWords = Object.keys(words).length;
