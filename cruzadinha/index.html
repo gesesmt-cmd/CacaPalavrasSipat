@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teste 10.35</title>
+    <title>teste 09.44</title>
     <style>
         * {
             margin: 0;
@@ -505,8 +505,8 @@
 </head>
 <body>
     <!-- Tela de Login -->
-    <div id="game-screen" class="game-container hidden">
-        <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
+    <div id="login-screen" class="container">
+        <h1>🛡️ Cruzadinha SIPAT 2025</h1>
         <p class="subtitle">Segurança do Trabalho - Complete seus dados para começar</p>
 
         <form id="login-form" class="login-form">
@@ -525,7 +525,7 @@
             <button type="submit" class="btn">🎮 Começar a Jogar</button>
         </form>
     </div>
-    
+
     <!-- Tela do Jogo -->
     <div id="game-screen" class="game-container hidden">
         <h1 id="game-title">🛡️ Cruzadinha SIPAT 2025</h1>
@@ -598,27 +598,7 @@
             </div>
         </div>
     </div>
-    <div id="final-screen" class="container hidden">
-        <h2>🎉 Jogo Finalizado!</h2>
-    
-        <div class="final-message">
-            "O cuidado gera prevenção, que fortalece a conscientização, despertando o compromisso,
-            que se pratica com colaboração, evolui para a proatividade e resulta em valorização."
-        </div>
-    
-        <div class="game-info">
-            <div class="info-item">
-                <div class="info-label">Pontuação Final</div>
-                <div class="info-value" id="final-score"></div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Tempo Total</div>
-                <div class="info-value" id="final-time"></div>
-            </div>
-        </div>
-    
-        <button class="btn" onclick="showLogin()">Jogar Novamente</button>
-    </div>
+
     <script>
         // --- ESTRUTURA DE NÍVEIS DO JOGO ---
         const levels = [
@@ -875,49 +855,63 @@
             if (nextCell) { e.preventDefault(); nextCell.focus(); }
         }
 
-         function checkAnswers() {
+ function checkAnswers() {
             const newlyCompletedWords = new Set();
             const allWordKeys = Object.keys(words);
-        
+
             allWordKeys.forEach(wordNum => {
                 const { word, direction, start } = words[wordNum];
                 const [startRow, startCol] = start;
                 let isCorrect = true;
                 let isFilled = true;
-        
+                const wordCells = [];
+
                 for (let i = 0; i < word.length; i++) {
                     const row = direction === 'vertical' ? startRow + 1 + i : startRow;
                     const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
                     const cell = document.getElementById(`cell-${row}-${col}`);
                     const input = cell?.querySelector('input');
+                    wordCells.push(cell);
                     if (!input) { isCorrect = false; isFilled = false; break; }
                     if (!input.value) isFilled = false;
                     if (normalize(input.value) !== normalize(word[i])) isCorrect = false;
                 }
-        
-                if (isFilled && isCorrect) newlyCompletedWords.add(wordNum);
+
+                wordCells.forEach(cell => {
+                    if (cell) {
+                        cell.classList.remove('correct', 'incorrect');
+                        if (isFilled) cell.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                });
+
+                const clue = document.querySelector(`.clue[data-word="${wordNum}"]`);
+                if (isFilled && isCorrect) {
+                    newlyCompletedWords.add(wordNum);
+                    if (clue) clue.classList.add('completed');
+                } else {
+                    if (clue) clue.classList.remove('completed');
+                }
             });
-        
+
             completedWords = newlyCompletedWords;
             updateProgress();
-        
+
             // quando terminar todas
             if (completedWords.size === allWordKeys.length) {
                 if (currentLevel < levels.length - 1) {
-                    alert(`Parabéns, você completou o Nível ${currentLevel + 1}!`);
+                    alert(`Parabéns, você completou o Nível ${currentLevel + 1}! Preparando o próximo desafio...`);
                     loadLevel(currentLevel + 1);
                 } else {
                     // fim do jogo
                     stopTimer();
                     document.getElementById('game-screen').classList.add('hidden');
                     document.getElementById('final-screen').classList.remove('hidden');
-        
+
                     // preencher dados finais
                     document.getElementById('final-score').textContent = score;
                     document.getElementById('final-time').textContent =
                         document.getElementById('timer-display').textContent;
-        
-                    // envia resultados sem resetar a tela
+
                     if (currentLevel === 1 && !resultsSent) {
                         resultsSent = true;
                         enviarResultadosGoogleSheets();
@@ -981,15 +975,12 @@
         }
 
         window.onload = () => {
-            const gameScreen = document.getElementById('game-screen');
-            const loginScreen = document.getElementById('login-screen');
-        
-            if (gameScreen) gameScreen.classList.add('hidden');
-            if (loginScreen) loginScreen.classList.remove('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
         };
         
         function enviarResultadosGoogleSheets() {
-            const url = "https://script.google.com/macros/s/AKfycbyOt400cDyxBfJ2uaJYD2anq_WHHNFdlt7UUMo8qrflaDFiLEtyvGQrQ4K9rPyW1yrNhQ/exec";
+            const url = "https://script.google.com/macros/s/AKfycbyOt400cDyxBfJ2uaJYD2anq_WHHNFdlt7UUMo8qrflaDFiLEtyvGQrQ4K9rPyW1yrNhQ/exec"; // substitua pela sua URL
             const tempoFinal = document.getElementById("timer-display").textContent;
         
             const payload = {
@@ -1001,17 +992,22 @@
         
             fetch(url, {
                 method: "POST",
-                mode: "no-cors",
+                mode: "no-cors",  // evita erro de CORS
                 body: JSON.stringify(payload),
                 headers: { "Content-Type": "application/json" }
             })
             .then(() => {
                 console.log("✅ Dados enviados");
-                // não reseta, não usa alert
-                // a tela final já está visível
+        
+                // Mensagem de parabéns
+                alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
+        
+                // Reseta o jogo para novo jogador
+                resetGame();
             })
             .catch(err => console.error("⌐ Erro:", err));
         }
+        
        function resetGame() {
             // Zera variáveis principais
             score = 0;
