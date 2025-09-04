@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.41</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.46</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
     .container {
         background: white;
@@ -660,28 +660,49 @@ function handleKeyDown(e) {
 }
 
 function checkAnswers() {
-    let allCorrect = true;
+    const newlyCompletedWords = new Set();
     const allWordKeys = Object.keys(words);
 
-    allWordKeys.forEach((key, index) => {
-        const word = words[key].toUpperCase();
-        const inputs = document.querySelectorAll(`input[data-word='${key}']`);
-        let wordCorrect = true;
+    allWordKeys.forEach(wordNum => {
+        const { word, direction, start } = words[wordNum];
+        const [startRow, startCol] = start;
+        let isCorrect = true;
+        let isFilled = true;
+        const wordCells = [];
 
-        inputs.forEach((input, idx) => {
-            if (input.value.toUpperCase() !== word[idx]) {
-                wordCorrect = false;
+        for (let i = 0; i < word.length; i++) {
+            const row = direction === 'vertical' ? startRow + 1 + i : startRow;
+            const col = direction === 'horizontal' ? startCol + 1 + i : startCol;
+            const cell = document.getElementById(`cell-${row}-${col}`);
+            const input = cell?.querySelector('input');
+            wordCells.push(cell);
+            if (!input) { isCorrect = false; isFilled = false; break; }
+            if (!input.value) isFilled = false;
+            if (normalize(input.value) !== normalize(word[i])) isCorrect = false;
+        }
+
+        // atualiza classes visuais das células
+        wordCells.forEach(cell => {
+            if (cell) {
+                cell.classList.remove('correct', 'incorrect');
+                if (isFilled) cell.classList.add(isCorrect ? 'correct' : 'incorrect');
             }
         });
 
-        if (wordCorrect) {
-            inputs.forEach(input => input.disabled = true);
-            completedWords.add(key);
+        const clue = document.querySelector(`.clue[data-word="${wordNum}"]`);
+        if (isFilled && isCorrect) {
+            newlyCompletedWords.add(wordNum);
+            if (clue) clue.classList.add('completed');
         } else {
-            allCorrect = false;
+            if (clue) clue.classList.remove('completed');
         }
     });
 
+    // atualiza o conjunto de palavras completadas e a barra de progresso
+    completedWords = newlyCompletedWords;
+    updateProgress();
+
+    // Verifica se todas as palavras do nível atual foram completadas
     if (completedWords.size === allWordKeys.length) {
         if (currentLevel < levels.length - 1) {
             // Avança para o próximo nível
@@ -692,7 +713,7 @@ function checkAnswers() {
             stopTimer();
             document.getElementById('success-message').classList.remove('hidden');
 
-            // Envia apenas uma vez quando concluir o nível 2
+            // Envia os resultados só uma vez quando concluir o nível 2 (índice 1)
             if (currentLevel === 1 && !resultsSent) {
                 resultsSent = true;
                 enviarResultadosGoogleSheets();
