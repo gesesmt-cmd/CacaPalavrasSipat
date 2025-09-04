@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 07.50</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>teste 08.01</title> <style> body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
     .container {
         background: white;
@@ -782,7 +782,7 @@ window.onload = () => {
     document.getElementById('login-screen').classList.remove('hidden');
 };
     function enviarResultadosGoogleSheets() {
-    const url = "https://script.google.com/macros/s/AKfycbyOt400cDyxBfJ2uaJYD2anq_WHHNFdlt7UUMo8qrflaDFiLEtyvGQrQ4K9rPyW1yrNhQ/exec";
+        const url = "URL_DO_SEU_WEB_APP"; // substitua pela sua URL
         const tempoFinal = document.getElementById("timer-display").textContent;
     
         const payload = {
@@ -794,12 +794,43 @@ window.onload = () => {
     
         fetch(url, {
             method: "POST",
-            mode: "no-cors",  // evita erro de CORS, mas sem resposta
+            mode: "no-cors",  // evita erro de CORS
             body: JSON.stringify(payload),
             headers: { "Content-Type": "application/json" }
         })
-        .then(() => console.log("✅ Dados enviados"))
+        .then(() => {
+            console.log("✅ Dados enviados");
+    
+            // Mensagem de parabéns
+            alert("🎉 Parabéns, você concluiu o desafio com sucesso!");
+    
+            // Reseta o jogo para novo jogador
+            resetGame();
+        })
         .catch(err => console.error("❌ Erro:", err));
+    }
+    function resetGame() {
+        // Zera variáveis principais
+        score = 0;
+        currentLevel = 0;
+        completedWords.clear();
+        resultsSent = false;
+    
+        // Limpa campos de jogador
+        currentPlayer = { name: "", cpf: "" };
+    
+        // Esconde mensagens de sucesso
+        document.getElementById('success-message').classList.add('hidden');
+    
+        // Volta para tela inicial (se existir) ou reinicia a página
+        if (document.getElementById('player-form')) {
+            document.getElementById('player-form').reset();
+            document.getElementById('game-container').classList.add('hidden');
+            document.getElementById('player-setup').classList.remove('hidden');
+        } else {
+            // alternativa: recarrega tudo
+            location.reload();
+        }
     }
 </script>
 </body> </html>
