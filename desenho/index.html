@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 15.38</title>
+  <title>teste 15.47</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{
@@ -186,6 +186,54 @@
         btn.textContent = 'Enviar cadastro';
       }
     });
+    async function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(',')[1]); // pega só o base64
+    reader.onerror = error => reject(error);
+  });
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if(!validaCPF(cpfInput.value)){
+    cpfErro.style.display = 'block';
+    return;
+  } else { cpfErro.style.display = 'none'; }
+
+  btn.disabled = true; btn.textContent = 'Enviando...'; msg.textContent = '';
+
+  const fd = new FormData();
+  fd.set('nome_colaborador', document.getElementById('nome').value.trim());
+  fd.set('cpf', document.getElementById('cpf').value.trim());
+  fd.set('idade_crianca', document.getElementById('idade').value.trim());
+  fd.set('resposta_obrigatoria', document.getElementById('resposta').value.trim());
+  fd.set('autorizacao', autorizacao.checked ? 'Sim' : 'Não');
+
+  // Converte arquivos para base64
+  const fotoCrianca = document.getElementById('foto_crianca').files[0];
+  const fotoDesenho = document.getElementById('foto_desenho').files[0];
+  if(fotoCrianca) fd.set('foto_crianca', await toBase64(fotoCrianca));
+  if(fotoDesenho) fd.set('foto_desenho', await toBase64(fotoDesenho));
+
+  try{
+    await fetch(SCRIPT_URL, { method:'POST', body:fd });
+    msg.textContent = '✅ Cadastro enviado com sucesso!';
+    msg.className = 'ok';
+    form.reset();
+    document.getElementById('prev_crianca').innerHTML = '';
+    document.getElementById('prev_desenho').innerHTML = '';
+    btn.disabled = true;
+  }catch(err){
+    console.error(err);
+    msg.textContent = 'Não foi possível enviar. Verifique a conexão e tente novamente.';
+    msg.className = 'error';
+  }finally{
+    btn.textContent = 'Enviar cadastro';
+  }
+});
   </script>
 </body>
 </html>
