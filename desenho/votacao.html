@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 14.25</title>
+  <title>teste 14.27</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -544,7 +544,7 @@
           mode: 'no-cors'
         });
         const text = await response.text();
-        alert(text); // mostra 'Voto registrado' ou 'CPF já votou' ou algo como 'Erro no servidor: ...'
+        //alert(text); // mostra 'Voto registrado' ou 'CPF já votou' ou algo como 'Erro no servidor: ...'
         
         // Simular sucesso (em produção, verificar response)
         await new Promise(resolve => setTimeout(resolve, 2000));
