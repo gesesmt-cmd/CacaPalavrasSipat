@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 14.27</title>
+  <title>teste 14.51</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -400,42 +400,35 @@
       const errorDiv = document.getElementById('cpf-error');
       const successDiv = document.getElementById('cpf-success');
       const validateBtn = document.getElementById('validate-cpf-btn');
-      
+    
       hideMessages();
-      
+    
       if (!cpf) {
         showError('Por favor, digite um CPF.');
         return;
       }
-      
+    
       if (!isValidCPF(cpf)) {
         showError('CPF inválido. Verifique os números digitados.');
         return;
       }
-      
-      // Simular verificação se CPF já votou (substituir por verificação real)
+    
       validateBtn.textContent = 'Verificando...';
       validateBtn.disabled = true;
-      
+    
       try {
-        // Aqui você faria uma consulta ao Google Sheets para verificar se o CPF já votou
-        // Por enquanto, vamos simular uma verificação
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Simular que alguns CPFs já votaram (remover em produção)
-        const alreadyVotedCPFs = ['12345678901', '98765432100'];
-        const cleanCPF = cpf.replace(/[^\d]/g, '');
-        
-        if (alreadyVotedCPFs.includes(cleanCPF)) {
-          showError('Este CPF já votou. Cada eleitor pode votar apenas uma vez.');
+        const response = await fetch(`${SCRIPT_URL}?cpf=${cpf}`);
+        const result = await response.text();
+    
+        if (result === "ja_votou") {
+          showError('❌ Este CPF já votou. Cada eleitor só pode votar uma vez.');
           return;
         }
-        
-        // CPF válido e não votou ainda
+    
         validatedCPF = cpf;
         showSuccess('✅ CPF validado! Agora você pode votar.');
         updateVotingArea();
-        
+    
       } catch (error) {
         showError('Erro ao validar CPF. Tente novamente.');
       } finally {
