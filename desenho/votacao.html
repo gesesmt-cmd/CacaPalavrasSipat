@@ -21,19 +21,6 @@
       overflow-x: hidden;
     }
     
-    /* Efeitos de fundo animados */
-    body::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(33, 150, 243, 0.12) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 80%, rgba(13, 71, 161, 0.1) 0%, transparent 50%);
-      animation: float 25s ease-in-out infinite;
-      z-index: 0;
-    }
-    
     @keyframes float {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-30px) rotate(180deg); }
@@ -534,6 +521,15 @@
   </style>
 </head>
 <body>
+           <!-- Cabeçalho de Navegação -->
+    <div id="header"></div>
+    <script>
+            fetch("/Sipat2025Energia/header.html")
+              .then(response => response.text())
+              .then(data => {
+                document.getElementById("header").innerHTML = data;
+              });
+     </script>
   <div class="container">
     <!-- Página principal de votação -->
     <div id="voting-page">
@@ -653,7 +649,7 @@
 
   <script>
     // Configuração do Google Apps Script
-    const SCRIPT_URL = 'https://script.google.com/macros/s/SEU_SCRIPT_ID_AQUI/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2ybJA0TjXfYkXxxmqIOXLV7IB2rVUmDr5MtnkRGO6rowROBkaPlgknS3GER9EcW0/exec';
     
     let validatedCPF = '';
     let selectedPhoto = null;
