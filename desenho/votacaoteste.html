@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 15.07</title>
+  <title>teste 15.10</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -395,48 +395,40 @@
       return digit2 === parseInt(cpf.charAt(10));
     }
     
-    async function validateCPF() {
-      const cpf = cpfInput.value.trim();
-      const errorDiv = document.getElementById('cpf-error');
-      const successDiv = document.getElementById('cpf-success');
-      const validateBtn = document.getElementById('validate-cpf-btn');
-    
-      hideMessages();
-    
-      if (!cpf) {
-        showError('Por favor, digite um CPF.');
-        return;
-      }
-    
-      if (!isValidCPF(cpf)) {
-        showError('CPF inválido. Verifique os números digitados.');
-        return;
-      }
-    
-      validateBtn.textContent = 'Verificando...';
-      validateBtn.disabled = true;
-    
-      try {
-        const response = await fetch(`${SCRIPT_URL}?cpf=${cpf}`);
-        const data = await response.json();
+      async function validateCPF() {
+        const cpfRaw = cpfInput.value.trim();
+        const cleanCpf = cpfRaw.replace(/\D/g,'');
       
-        if (data.status === "ja_votou") {
-          showError("❌ Este CPF já votou. Cada eleitor só pode votar uma vez.");
-          return;
+        hideMessages();
+        if (!cleanCpf) { showError('Por favor, digite um CPF.'); return; }
+        if (!isValidCPF(cpfRaw)) { showError('CPF inválido.'); return; }
+      
+        validateBtn.textContent = 'Verificando...';
+        validateBtn.disabled = true;
+      
+        try {
+          const response = await fetch(`${SCRIPT_URL}?cpf=${encodeURIComponent(cleanCpf)}`);
+          if (!response.ok) throw new Error('Erro de rede');
+      
+          const data = await response.json(); // espera { status: "ja_votou" } etc
+      
+          if (data.status === "ja_votou") {
+            showError('❌ Este CPF já votou. Cada eleitor só pode votar uma vez.');
+            return;
+          }
+      
+          validatedCPF = cpfRaw;
+          showSuccess('✅ CPF validado! Agora você pode votar.');
+          updateVotingArea();
+      
+        } catch (error) {
+          console.error('validateCPF error:', error);
+          showError('Erro ao validar CPF. Tente novamente.');
+        } finally {
+          validateBtn.textContent = 'Validar CPF';
+          validateBtn.disabled = false;
         }
-      
-        validatedCPF = cpf;
-        showSuccess("✅ CPF validado! Agora você pode votar.");
-        updateVotingArea();
-      
-      } catch (error) {
-        console.error(error);
-        showError("Erro ao validar CPF. Tente novamente.");
-      } finally {
-        validateBtn.textContent = "Validar CPF";
-        validateBtn.disabled = false;
       }
-    }
     
     
     function hideMessages() {
