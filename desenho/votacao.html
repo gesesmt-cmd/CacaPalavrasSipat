@@ -848,9 +848,10 @@
         // Simular envio (substituir pela URL real do Google Apps Script)
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          body: formData,
-          mode: 'no-cors'
+          body: formData
         });
+        const text = await response.text();
+        alert(text); // mostra 'Voto registrado' ou 'CPF já votou' ou algo como 'Erro no servidor: ...'
         
         // Simular sucesso (em produção, verificar response)
         await new Promise(resolve => setTimeout(resolve, 2000));
