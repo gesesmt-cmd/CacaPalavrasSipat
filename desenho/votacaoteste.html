@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 15.18</title>
+  <title>teste 15.20</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -17,7 +16,6 @@
         padding: 20px 0;
     }
 
-    /* Container central similar ao caça palavras */
     .container {
         width: 100%;
         max-width: 600px;
@@ -28,7 +26,6 @@
         justify-content: flex-start;
     }
 
-    /* Painel branco interno */
     .container > .inner-panel {
         background: rgba(255,255,255,0.98);
         border-radius: 18px;
@@ -89,10 +86,8 @@
     }
 
     .voting-info p { margin-bottom:6px; }
-
     .voting-info .highlight { color: #e65100; font-weight:700; }
 
-    /* CPF */
     .cpf-section {
         background: #fff;
         border-radius: 14px;
@@ -142,7 +137,6 @@
         box-shadow: 0 0 0 6px rgba(230,81,0,0.06);
     }
 
-    /* Botões laranja no estilo do caça palavras */
     .validate-btn, .submit-btn {
         background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
         color: white;
@@ -156,17 +150,50 @@
         min-width: 160px;
     }
 
-    .validate-btn:hover, .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(230,81,0,0.28); }
-    .validate-btn:disabled, .submit-btn:disabled { background:#f0a66a; opacity:0.7; cursor:not-allowed; transform:none; box-shadow:none; }
+    .validate-btn:hover, .submit-btn:hover { 
+        transform: translateY(-3px); 
+        box-shadow: 0 12px 30px rgba(230,81,0,0.28); 
+    }
+    
+    .validate-btn:disabled, .submit-btn:disabled { 
+        background:#f0a66a; 
+        opacity:0.7; 
+        cursor:not-allowed; 
+        transform:none; 
+        box-shadow:none; 
+    }
 
-    .error-message { color: #d32f2f; font-size:0.95rem; margin-top:8px; text-align:center; }
-    .success-message { color: #2e7d32; font-size:0.95rem; margin-top:8px; text-align:center; }
+    .error-message { 
+        color: #d32f2f; 
+        font-size:0.95rem; 
+        margin-top:8px; 
+        text-align:center; 
+    }
+    
+    .success-message { 
+        color: #2e7d32; 
+        font-size:0.95rem; 
+        margin-top:8px; 
+        text-align:center; 
+    }
 
-    /* Grid de fotos adaptado para painel menor */
-    .voting-area { opacity:0.3; pointer-events:none; transition: all .3s ease; }
-    .voting-area.enabled { opacity:1; pointer-events:all; }
+    .voting-area { 
+        opacity:0.3; 
+        pointer-events:none; 
+        transition: all .3s ease; 
+    }
+    
+    .voting-area.enabled { 
+        opacity:1; 
+        pointer-events:all; 
+    }
 
-    .voting-title { text-align:center; color:#e65100; font-weight:700; margin-bottom:14px; }
+    .voting-title { 
+        text-align:center; 
+        color:#e65100; 
+        font-weight:700; 
+        margin-bottom:14px; 
+    }
 
     .photos-grid {
         display:grid;
@@ -187,28 +214,112 @@
         overflow:hidden;
     }
 
-    .photo-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,0.12); border-color: rgba(230,81,0,0.12); }
-    .photo-card.selected { border-color: #e65100; transform: translateY(-6px); box-shadow: 0 18px 36px rgba(230,81,0,0.14); }
+    .photo-card:hover { 
+        transform: translateY(-4px); 
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12); 
+        border-color: rgba(230,81,0,0.12); 
+    }
+    
+    .photo-card.selected { 
+        border-color: #e65100; 
+        transform: translateY(-6px); 
+        box-shadow: 0 18px 36px rgba(230,81,0,0.14); 
+    }
 
-    .photo-container { width:100%; height:140px; border-radius:8px; overflow:hidden; margin-bottom:10px; display:flex; align-items:center; justify-content:center; background:#f6f6f6; }
-    .photo-container img { width:100%; height:100%; object-fit:cover; }
+    .photo-container { 
+        width:100%; 
+        height:140px; 
+        border-radius:8px; 
+        overflow:hidden; 
+        margin-bottom:10px; 
+        display:flex; 
+        align-items:center; 
+        justify-content:center; 
+        background:#f6f6f6; 
+    }
+    
+    .photo-container img { 
+        width:100%; 
+        height:100%; 
+        object-fit:cover; 
+    }
 
-    .photo-title { color:#e65100; font-weight:700; margin-bottom:6px; }
-    .photo-description { color:#555; font-size:0.95rem; }
+    .photo-title { 
+        color:#e65100; 
+        font-weight:700; 
+        margin-bottom:6px; 
+    }
+    
+    .photo-description { 
+        color:#555; 
+        font-size:0.95rem; 
+    }
 
-    .submit-section { text-align:center; padding-top:14px; border-top:1px solid rgba(0,0,0,0.04); }
+    .submit-section { 
+        text-align:center; 
+        padding-top:14px; 
+        border-top:1px solid rgba(0,0,0,0.04); 
+    }
 
-    /* Thank you page */
-    .thank-you-page { display:none; text-align:center; padding:30px 10px; }
-    .thank-you-page.show { display:block; }
+    .thank-you-page { 
+        display:none; 
+        text-align:center; 
+        padding:30px 10px; 
+    }
+    
+    .thank-you-page.show { 
+        display:block; 
+    }
 
-    .thank-you-title { color:#e65100; font-size:1.8rem; font-weight:800; margin-bottom:10px; }
-    .thank-you-message { color:#555; font-size:1rem; line-height:1.5; margin-bottom:12px; }
+    .thank-you-title { 
+        color:#e65100; 
+        font-size:1.8rem; 
+        font-weight:800; 
+        margin-bottom:10px; 
+    }
+    
+    .thank-you-message { 
+        color:#555; 
+        font-size:1rem; 
+        line-height:1.5; 
+        margin-bottom:12px; 
+    }
 
-    .vote-summary { background: linear-gradient(135deg, rgba(230,81,0,0.06) 0%, rgba(255,152,0,0.06) 100%); border-radius:12px; padding:12px; margin:12px auto; max-width:380px; border:1px solid rgba(230,81,0,0.08); }
+    .vote-summary { 
+        background: linear-gradient(135deg, rgba(230,81,0,0.06) 0%, rgba(255,152,0,0.06) 100%); 
+        border-radius:12px; 
+        padding:12px; 
+        margin:12px auto; 
+        max-width:380px; 
+        border:1px solid rgba(230,81,0,0.08); 
+    }
 
-    .back-btn { background:transparent; color:#e65100; border:2px solid #e65100; padding:10px 20px; border-radius:20px; text-decoration:none; display:inline-block; font-weight:700; }
-    .back-btn:hover { background:#e65100; color:#fff; }
+    .back-btn { 
+        background:transparent; 
+        color:#e65100; 
+        border:2px solid #e65100; 
+        padding:10px 20px; 
+        border-radius:20px; 
+        text-decoration:none; 
+        display:inline-block; 
+        font-weight:700; 
+    }
+    
+    .back-btn:hover { 
+        background:#e65100; 
+        color:#fff; 
+    }
+
+    .debug-info {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 10px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        display: none;
+    }
 
     @media (max-width:600px) {
         .container { padding: 8px; }
@@ -218,143 +329,142 @@
 </style>
 </head>
 <body>
-           <!-- Cabeçalho de Navegação -->
-    <div id="header"></div>
-    <script>
-            fetch("/Sipat2025Energia/header.html")
-              .then(response => response.text())
-              .then(data => {
-                document.getElementById("header").innerHTML = data;
-              });
-     </script>
   <div class="container">
-    <!-- Página principal de votação -->
-    <div id="voting-page">
-      <div class="header">
-        <div class="logo-wrap">
-          <div class="logo">🏆</div>
-          <div>
-            <h1>Votação SIPAT 2025</h1>
-            <p class="subtitle">Concurso de Desenhos Infantis</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="voting-info">
-        <p>🎨 <span class="highlight">Escolha o desenho mais criativo!</span></p>
-        <p>Vote no seu desenho favorito do concurso SIPAT 2025</p>
-        <p><strong>⚠️ Importante:</strong> Cada CPF pode votar apenas uma vez</p>
-      </div>
-      
-      <!-- Seção CPF -->
-      <div class="cpf-section">
-        <h3>🔐 Validação do CPF</h3>
-        <div class="cpf-input-group">
-          <div class="input-field">
-            <label for="cpf">CPF do Eleitor *</label>
-            <input id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" required />
-            <div id="cpf-error" class="error-message" style="display: none;"></div>
-            <div id="cpf-success" class="success-message" style="display: none;"></div>
-          </div>
-          <button id="validate-cpf-btn" class="validate-btn" onclick="validateCPF()">
-            Validar CPF
-          </button>
-        </div>
-      </div>
-      
-      <!-- Área de votação -->
-      <div class="voting-area" id="voting-area">
-        <h2 class="voting-title">🎨 Escolha seu desenho favorito:</h2>
-        
-        <div class="photos-grid">
-          <div class="photo-card" data-photo="1" onclick="selectPhoto(1)">
-            <div class="photo-container">
-              <!-- Substitua por suas imagens reais -->
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 1%3C/text%3E%3C/svg%3E" alt="Desenho 1" />
-              <div class="vote-indicator">✓</div>
+    <div class="inner-panel">
+      <!-- Página principal de votação -->
+      <div id="voting-page">
+        <div class="header">
+          <div class="logo-wrap">
+            <div class="logo">🏆</div>
+            <div>
+              <h1>Votação SIPAT 2025</h1>
+              <p class="subtitle">Concurso de Desenhos Infantis</p>
             </div>
-            <h4 class="photo-title">Desenho 1</h4>
-            <p class="photo-description">Descrição do primeiro desenho</p>
-          </div>
-          
-          <div class="photo-card" data-photo="2" onclick="selectPhoto(2)">
-            <div class="photo-container">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f3e5f5'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 2%3C/text%3E%3C/svg%3E" alt="Desenho 2" />
-              <div class="vote-indicator">✓</div>
-            </div>
-            <h4 class="photo-title">Desenho 2</h4>
-            <p class="photo-description">Descrição do segundo desenho</p>
-          </div>
-          
-          <div class="photo-card" data-photo="3" onclick="selectPhoto(3)">
-            <div class="photo-container">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e8'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 3%3C/text%3E%3C/svg%3E" alt="Desenho 3" />
-              <div class="vote-indicator">✓</div>
-            </div>
-            <h4 class="photo-title">Desenho 3</h4>
-            <p class="photo-description">Descrição do terceiro desenho</p>
-          </div>
-          
-          <div class="photo-card" data-photo="4" onclick="selectPhoto(4)">
-            <div class="photo-container">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 4%3C/text%3E%3C/svg%3E" alt="Desenho 4" />
-              <div class="vote-indicator">✓</div>
-            </div>
-            <h4 class="photo-title">Desenho 4</h4>
-            <p class="photo-description">Descrição do quarto desenho</p>
-          </div>
-          
-          <div class="photo-card" data-photo="5" onclick="selectPhoto(5)">
-            <div class="photo-container">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 5%3C/text%3E%3C/svg%3E" alt="Desenho 5" />
-              <div class="vote-indicator">✓</div>
-            </div>
-            <h4 class="photo-title">Desenho 5</h4>
-            <p class="photo-description">Descrição do quinto desenho</p>
           </div>
         </div>
         
-        <div class="submit-section">
-          <button id="submit-vote-btn" class="submit-btn" onclick="submitVote()" disabled>
-            🗳️ Confirmar Voto
-          </button>
-          <div id="vote-error" class="error-message" style="display: none; margin-top: 15px;"></div>
+        <div class="voting-info">
+          <p>🎨 <span class="highlight">Escolha o desenho mais criativo!</span></p>
+          <p>Vote no seu desenho favorito do concurso SIPAT 2025</p>
+          <p><strong>⚠️ Importante:</strong> Cada CPF pode votar apenas uma vez</p>
+        </div>
+        
+        <!-- Seção CPF -->
+        <div class="cpf-section">
+          <h3>🔐 Validação do CPF</h3>
+          <div class="cpf-input-group">
+            <div class="input-field">
+              <label for="cpf">CPF do Eleitor *</label>
+              <input id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" required />
+              <div id="cpf-error" class="error-message" style="display: none;"></div>
+              <div id="cpf-success" class="success-message" style="display: none;"></div>
+              <div id="debug-info" class="debug-info"></div>
+            </div>
+            <button id="validate-cpf-btn" class="validate-btn">
+              Validar CPF
+            </button>
+          </div>
+        </div>
+        
+        <!-- Área de votação -->
+        <div class="voting-area" id="voting-area">
+          <h2 class="voting-title">🎨 Escolha seu desenho favorito:</h2>
+          
+          <div class="photos-grid">
+            <div class="photo-card" data-photo="1">
+              <div class="photo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 1%3C/text%3E%3C/svg%3E" alt="Desenho 1" />
+              </div>
+              <h4 class="photo-title">Desenho 1</h4>
+              <p class="photo-description">Descrição do primeiro desenho</p>
+            </div>
+            
+            <div class="photo-card" data-photo="2">
+              <div class="photo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f3e5f5'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 2%3C/text%3E%3C/svg%3E" alt="Desenho 2" />
+              </div>
+              <h4 class="photo-title">Desenho 2</h4>
+              <p class="photo-description">Descrição do segundo desenho</p>
+            </div>
+            
+            <div class="photo-card" data-photo="3">
+              <div class="photo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e8'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 3%3C/text%3E%3C/svg%3E" alt="Desenho 3" />
+              </div>
+              <h4 class="photo-title">Desenho 3</h4>
+              <p class="photo-description">Descrição do terceiro desenho</p>
+            </div>
+            
+            <div class="photo-card" data-photo="4">
+              <div class="photo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 4%3C/text%3E%3C/svg%3E" alt="Desenho 4" />
+              </div>
+              <h4 class="photo-title">Desenho 4</h4>
+              <p class="photo-description">Descrição do quarto desenho</p>
+            </div>
+            
+            <div class="photo-card" data-photo="5">
+              <div class="photo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height '200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='150' y='100' font-family='Arial, sans-serif' font-size='16' fill='%23666' text-anchor='middle' dy='.3em'%3EDesenho 5%3C/text%3E%3C/svg%3E" alt="Desenho 5" />
+              </div>
+              <h4 class="photo-title">Desenho 5</h4>
+              <p class="photo-description">Descrição do quinto desenho</p>
+            </div>
+          </div>
+          
+          <div class="submit-section">
+            <button id="submit-vote-btn" class="submit-btn" disabled>
+              🗳️ Confirmar Voto
+            </button>
+            <div id="vote-error" class="error-message" style="display: none; margin-top: 15px;"></div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Página de agradecimento -->
-    <div id="thank-you-page" class="thank-you-page">
-      <div class="thank-you-icon">🎉</div>
-      <h2 class="thank-you-title">Obrigado pelo seu voto!</h2>
-      <p class="thank-you-message">
-        Seu voto foi registrado com sucesso! Agradecemos sua participação 
-        no concurso de desenhos da SIPAT 2025.
-      </p>
       
-      <div class="vote-summary">
-        <h4>📊 Resumo do seu voto:</h4>
-        <p id="vote-details">Desenho selecionado: -</p>
-        <p id="vote-time">Data/Hora: -</p>
+      <!-- Página de agradecimento -->
+      <div id="thank-you-page" class="thank-you-page">
+        <div class="thank-you-icon">🎉</div>
+        <h2 class="thank-you-title">Obrigado pelo seu voto!</h2>
+        <p class="thank-you-message">
+          Seu voto foi registrado com sucesso! Agradecemos sua participação 
+          no concurso de desenhos da SIPAT 2025.
+        </p>
+        
+        <div class="vote-summary">
+          <h4>📊 Resumo do seu voto:</h4>
+          <p id="vote-details">Desenho selecionado: -</p>
+          <p id="vote-time">Data/Hora: -</p>
+        </div>
+        
+        <a href="#" class="back-btn" onclick="resetVoting()">
+          ← Voltar ao início
+        </a>
       </div>
-      
-      <a href="#" class="back-btn" onclick="resetVoting()">
-        ← Voltar ao início
-      </a>
     </div>
   </div>
 
   <script>
-    // Configuração do Google Apps Script
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAXR_M_V-qYGAPfqGZq4NSIxRxHzS6um4nvsEWG4xcy2Ga9B71ErWCwomr78HtAW_PIA/exec';
+    // CONFIGURAÇÃO - Substitua pela sua URL do Google Apps Script
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYUKpnj-jfiOiMS3syKEefxAP7VYag9rQ_SIbnOmYvuq69W3HESITN4wU-F4BZ12EHzQ/exec';
     
     let validatedCPF = '';
     let selectedPhoto = null;
     let hasVoted = false;
     
-    // Máscara e validação de CPF
+    // Elementos DOM
     const cpfInput = document.getElementById('cpf');
+    const validateBtn = document.getElementById('validate-cpf-btn');
+    const submitBtn = document.getElementById('submit-vote-btn');
+    const debugInfo = document.getElementById('debug-info');
     
+    // Função para debug (remover em produção)
+    function showDebug(message) {
+      debugInfo.textContent = message;
+      debugInfo.style.display = 'block';
+      console.log('DEBUG:', message);
+    }
+    
+    // Máscara de CPF
     cpfInput.addEventListener('input', (e) => {
       let value = e.target.value.replace(/\D/g, '');
       value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -368,15 +478,33 @@
       updateVotingArea();
     });
     
+    // Enter para validar CPF
+    cpfInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        validateCPF();
+      }
+    });
+    
+    // Event listener para botão de validação
+    document.getElementById('validate-cpf-btn').addEventListener('click', validateCPF);
+    
+    // Event listeners para seleção de fotos
+    document.querySelectorAll('.photo-card').forEach((card, index) => {
+      card.addEventListener('click', () => selectPhoto(index + 1));
+    });
+    
+    // Event listener para botão de submissão
+    submitBtn.addEventListener('click', submitVote);
+    
     // Validação de CPF
     function isValidCPF(cpf) {
       cpf = cpf.replace(/[^\d]/g, '');
       
-      if (cpf.length !== 11 || /(\d)\1{10}/.test(cpf)) {
-        return false;
-      }
+      if (cpf.length !== 11) return false;
+      if (/(\d)\1{10}/.test(cpf)) return false; // Todos os dígitos iguais
       
-      // Validação do primeiro dígito
+      // Validação do primeiro dígito verificador
       let sum = 0;
       for (let i = 0; i < 9; i++) {
         sum += parseInt(cpf.charAt(i)) * (10 - i);
@@ -385,7 +513,7 @@
       if (digit1 >= 10) digit1 = 0;
       if (digit1 !== parseInt(cpf.charAt(9))) return false;
       
-      // Validação do segundo dígito
+      // Validação do segundo dígito verificador
       sum = 0;
       for (let i = 0; i < 10; i++) {
         sum += parseInt(cpf.charAt(i)) * (11 - i);
@@ -395,45 +523,86 @@
       return digit2 === parseInt(cpf.charAt(10));
     }
     
-      async function validateCPF() {
-        const cpfRaw = cpfInput.value.trim();
-        const cleanCpf = cpfRaw.replace(/\D/g,'');
+    // Validar CPF no servidor
+    async function validateCPF() {
+      const cpfRaw = cpfInput.value.trim();
+      const cleanCpf = cpfRaw.replace(/\D/g, '');
       
-        hideMessages();
-        if (!cleanCpf) { showError('Por favor, digite um CPF.'); return; }
-        if (!isValidCPF(cpfRaw)) { showError('CPF inválido.'); return; }
+      hideMessages();
       
-        validateBtn.textContent = 'Verificando...';
-        validateBtn.disabled = true;
+      // Validações básicas
+      if (!cleanCpf) {
+        showError('Por favor, digite um CPF.');
+        return;
+      }
       
-        try {
-          const response = await fetch(`${SCRIPT_URL}?cpf=${encodeURIComponent(cleanCpf)}`);
-          if (!response.ok) throw new Error('Erro de rede');
+      if (!isValidCPF(cpfRaw)) {
+        showError('CPF inválido. Verifique os números digitados.');
+        return;
+      }
       
-          const data = await response.json(); // espera { status: "ja_votou" } etc
+      // Interface de loading
+      validateBtn.textContent = 'Verificando...';
+      validateBtn.disabled = true;
+      showDebug(`Verificando CPF: ${cleanCpf}`);
       
-          if (data.status === "ja_votou") {
-            showError('❌ Este CPF já votou. Cada eleitor só pode votar uma vez.');
-            return;
+      try {
+        // Fazer requisição GET para verificar se CPF já votou
+        const url = `${SCRIPT_URL}?action=check&cpf=${encodeURIComponent(cleanCpf)}`;
+        showDebug(`URL: ${url}`);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           }
-      
+        });
+        
+        showDebug(`Response status: ${response.status}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const responseText = await response.text();
+        showDebug(`Response text: ${responseText}`);
+        
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (parseError) {
+          throw new Error(`Erro ao interpretar resposta: ${responseText}`);
+        }
+        
+        showDebug(`Parsed data: ${JSON.stringify(data)}`);
+        
+        if (data.status === "ja_votou") {
+          showError('❌ Este CPF já votou. Cada eleitor só pode votar uma vez.');
+          showDebug('CPF já votou');
+          return;
+        } else if (data.status === "nao_votou") {
           validatedCPF = cpfRaw;
           showSuccess('✅ CPF validado! Agora você pode votar.');
+          showDebug('CPF liberado para votar');
           updateVotingArea();
-      
-        } catch (error) {
-          console.error('validateCPF error:', error);
-          showError('Erro ao validar CPF. Tente novamente.');
-        } finally {
-          validateBtn.textContent = 'Validar CPF';
-          validateBtn.disabled = false;
+        } else {
+          throw new Error(`Status desconhecido: ${data.status}`);
         }
+        
+      } catch (error) {
+        console.error('Erro na validação:', error);
+        showError(`Erro ao validar CPF: ${error.message}`);
+        showDebug(`Erro: ${error.message}`);
+      } finally {
+        validateBtn.textContent = 'Validar CPF';
+        validateBtn.disabled = false;
       }
-    
+    }
     
     function hideMessages() {
       document.getElementById('cpf-error').style.display = 'none';
       document.getElementById('cpf-success').style.display = 'none';
+      debugInfo.style.display = 'none';
     }
     
     function showError(message) {
@@ -489,7 +658,6 @@
     }
     
     function updateSubmitButton() {
-      const submitBtn = document.getElementById('submit-vote-btn');
       submitBtn.disabled = !validatedCPF || !selectedPhoto || hasVoted;
     }
     
@@ -498,7 +666,6 @@
         return;
       }
       
-      const submitBtn = document.getElementById('submit-vote-btn');
       const voteError = document.getElementById('vote-error');
       
       // Confirmar voto
@@ -510,44 +677,61 @@
       voteError.style.display = 'none';
       
       try {
-        // Preparar dados para envio
+        const cleanCpf = validatedCPF.replace(/\D/g, '');
         const voteData = {
-          cpf: validatedCPF,
-          desenho_votado: selectedPhoto,
+          action: 'vote',
+          cpf: cleanCpf,
+          desenho_votado: selectedPhoto.toString(),
           data_voto: new Date().toLocaleString('pt-BR'),
           timestamp: new Date().toISOString()
         };
         
-        // Enviar para Google Sheets
+        showDebug(`Enviando voto: ${JSON.stringify(voteData)}`);
+        
+        // Criar FormData para envio
         const formData = new FormData();
         Object.keys(voteData).forEach(key => {
           formData.append(key, voteData[key]);
         });
         
-        // Simular envio (substituir pela URL real do Google Apps Script)
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          body: formData,
-          mode: 'no-cors'
+          body: formData
         });
-        const text = await response.text();
-        //alert(text); // mostra 'Voto registrado' ou 'CPF já votou' ou algo como 'Erro no servidor: ...'
         
-        // Simular sucesso (em produção, verificar response)
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        showDebug(`Vote response status: ${response.status}`);
         
-        // Marcar como votado
-        hasVoted = true;
+        const responseText = await response.text();
+        showDebug(`Vote response: ${responseText}`);
         
-        // Mostrar página de agradecimento
-        showThankYouPage();
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (e) {
+          // Se não conseguir fazer parse, assume sucesso se não há erro explícito
+          result = { status: "registrado" };
+        }
+        
+        if (result.status === "ja_votou") {
+          voteError.textContent = '❌ Este CPF já votou anteriormente.';
+          voteError.style.display = 'block';
+        } else if (result.status === "registrado" || result.status === "success") {
+          hasVoted = true;
+          showThankYouPage();
+        } else {
+          throw new Error(result.message || 'Erro desconhecido ao registrar voto');
+        }
         
       } catch (error) {
         console.error('Erro ao enviar voto:', error);
-        voteError.textContent = '❌ Erro ao enviar voto. Verifique sua conexão e tente novamente.';
+        voteError.textContent = `❌ Erro ao enviar voto: ${error.message}`;
         voteError.style.display = 'block';
-        submitBtn.textContent = '🗳️ Confirmar Voto';
-        submitBtn.disabled = false;
+        showDebug(`Erro no envio: ${error.message}`);
+      } finally {
+        if (!hasVoted) {
+          submitBtn.textContent = '🗳️ Confirmar Voto';
+          submitBtn.disabled = false;
+        }
       }
     }
     
@@ -566,7 +750,7 @@
       // Scroll para o topo
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Confetti effect
+      // Efeito confetti
       createConfetti();
     }
     
@@ -578,14 +762,14 @@
         hasVoted = false;
         
         // Reset form
-        document.getElementById('cpf').value = '';
+        cpfInput.value = '';
         hideMessages();
         updatePhotoSelection();
         updateVotingArea();
         updateSubmitButton();
         
         // Reset button text
-        document.getElementById('submit-vote-btn').textContent = '🗳️ Confirmar Voto';
+        submitBtn.textContent = '🗳️ Confirmar Voto';
         document.getElementById('vote-error').style.display = 'none';
         
         // Show voting page
@@ -598,7 +782,7 @@
     }
     
     function createConfetti() {
-      const colors = ['#1e88e5', '#1976d2', '#0d47a1', '#42a5f5', '#90caf9'];
+      const colors = ['#e65100', '#ff9800', '#bf360c', '#ff5722', '#ffab40'];
       const container = document.body;
       
       for (let i = 0; i < 50; i++) {
@@ -647,3 +831,5 @@
     `;
     document.head.appendChild(confettiStyle);
   </script>
+</body>
+</html>
