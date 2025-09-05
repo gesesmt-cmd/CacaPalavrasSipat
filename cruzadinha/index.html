@@ -11,27 +11,24 @@
             box-sizing: border-box;
         }
 
-        body {
+         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #ff6b35, #f7931e, #ff9500);
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             color: #333;
+            display: flex;
+            flex-direction: column; /* garante que header fica em cima */
         }
-
-        .container {
+         .container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 30px;
+            max-width: 800px;
+            width: 90%;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
+        
+            margin: 40px auto; /* centraliza horizontal e dá espaço do topo */
         }
 
         .game-container {
