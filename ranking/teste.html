@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>16.48</title>
+  <title>16.52</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -196,11 +196,11 @@
         const rows = json.table.rows;
 
         // montar lista de jogadores
-        const players = rows.map(r => ({
-          nome: r.c[0]?.v || "",
-          cpf: r.c[1]?.v || "",
-          totalPontos: parseInt(r.c[2]?.v) || 0,
-          tempo: r.c[3]?.v || ""
+        const players = rows.slice(1).map(r => ({
+          nome: r[1],                // Coluna 2 da planilha
+          cpf: r[2],                 // Coluna 3
+          totalPontos: parseInt(r[3]) || 0, // Coluna 4
+          tempo: r[4] || ""          // Coluna 5
         }));
 
         // ordenar por pontos
