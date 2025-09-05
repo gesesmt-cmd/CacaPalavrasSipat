@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Teste 13.49</title>
+  <title>teste 13.52</title>
   <style>
     * {
       margin: 0;
@@ -19,6 +19,19 @@
       padding: 20px;
       position: relative;
       overflow-x: hidden;
+    }
+    
+    /* Efeitos de fundo animados */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(33, 150, 243, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 80%, rgba(13, 71, 161, 0.1) 0%, transparent 50%);
+      animation: float 25s ease-in-out infinite;
+      z-index: 0;
     }
     
     @keyframes float {
@@ -521,15 +534,6 @@
   </style>
 </head>
 <body>
-           <!-- Cabeçalho de Navegação -->
-    <div id="header"></div>
-    <script>
-            fetch("/Sipat2025Energia/header.html")
-              .then(response => response.text())
-              .then(data => {
-                document.getElementById("header").innerHTML = data;
-              });
-     </script>
   <div class="container">
     <!-- Página principal de votação -->
     <div id="voting-page">
@@ -747,6 +751,7 @@
       }
     }
     
+    
     function hideMessages() {
       document.getElementById('cpf-error').style.display = 'none';
       document.getElementById('cpf-success').style.display = 'none';
@@ -880,7 +885,7 @@
       // Scroll para o topo
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Confetti effect (opcional)
+      // Confetti effect
       createConfetti();
     }
     
@@ -941,6 +946,14 @@
       }
     }
     
+    // Prevenir reload acidental
+    window.addEventListener('beforeunload', function(e) {
+      if (selectedPhoto && !hasVoted) {
+        e.preventDefault();
+        e.returnValue = 'Você tem um voto não confirmado. Tem certeza que deseja sair?';
+      }
+    });
+    
     // CSS para animação do confetti
     const confettiStyle = document.createElement('style');
     confettiStyle.textContent = `
@@ -952,31 +965,4 @@
       }
     `;
     document.head.appendChild(confettiStyle);
-    
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', function() {
-      updateVotingArea();
-      updateSubmitButton();
-      
-      // Permitir Enter no campo CPF
-      cpfInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          validateCPF();
-        }
-      });
-      
-      // Adicionar efeitos visuais
-      const cards = document.querySelectorAll('.photo-card');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-        card.style.animation = 'slideUp 0.6s ease-out forwards';
-      });
-    });
-    
-    // Prevenir reload acidental
-    window.addEventListener('beforeunload', function(e) {
-      if (selectedPhoto && !hasVoted) {
-        e.preventDefault();
-        e.returnValue = 'Você tem um voto não confirmado. Tem certeza que deseja sair?';
-      }
-    });
+  </script>
