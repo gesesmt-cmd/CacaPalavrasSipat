@@ -120,9 +120,15 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://gesesmt-cmd.github.io/Sipat2025Energia/imagem/logo_energia.png" alt="Logo Energia" loading="lazy">
-  </header>
+       <!-- Cabeçalho de Navegação -->
+    <div id="header"></div>
+    <script>
+            fetch("/Sipat2025Energia/header.html")
+              .then(response => response.text())
+              .then(data => {
+                document.getElementById("header").innerHTML = data;
+              });
+     </script>
 
   <div class="container">
     <h1>🚧 Em Construção</h1>
