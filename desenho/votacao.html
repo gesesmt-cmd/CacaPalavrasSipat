@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 14.16</title>
+  <title>teste 14.19</title>
   <style>
     * {
       margin: 0;
@@ -534,6 +534,15 @@
   </style>
 </head>
 <body>
+           <!-- Cabeçalho de Navegação -->
+    <div id="header"></div>
+    <script>
+            fetch("/Sipat2025Energia/header.html")
+              .then(response => response.text())
+              .then(data => {
+                document.getElementById("header").innerHTML = data;
+              });
+     </script>
   <div class="container">
     <!-- Página principal de votação -->
     <div id="voting-page">
