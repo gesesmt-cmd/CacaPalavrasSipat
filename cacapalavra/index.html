@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Caça Palavra</title>
+    <title>teste 09.11</title>
    <style>
         * {
             margin: 0;
@@ -357,15 +357,15 @@
 </head>
 <body>
      <!-- Cabeçalho de Navegação -->
-      <header class="site-header">
-        <nav class="navbar">
-          <img src="'https://gesesmt-cmd.github.io/Sipat2025Energia/imagem/logo_energia.png" alt="Logo Energia" loading="lazy">
-          <a href="/Sipat2025Energia/" class="nav-link" id="nav-principal">Principal</a>
-          <a href="cacapalavra/" class="nav-link" id="nav-caca">Caça Palavras</a>
-          <a href="forca/" class="nav-link" id="nav-forca">Forca</a>
-          <a href="cruzadinha/" class="nav-link" id="nav-cruzadinha">Cruzadinha</a>
-        </nav>
-      </header>
+    <div id="header"></div>
+    <script>
+            fetch("/Sipat2025Energia/header.html")
+              .then(response => response.text())
+              .then(data => {
+                document.getElementById("header").innerHTML = data;
+              });
+     </script>
+    
     <!-- Tela Inicial -->
     <div class="container">
         <div class="screen active" id="welcomeScreen">
