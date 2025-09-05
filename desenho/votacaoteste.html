@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>teste 14.55</title>
+  <title>teste 15.01</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -417,24 +417,23 @@
       validateBtn.disabled = true;
     
       try {
-        const response = await fetch(`${SCRIPT_URL}?cpf=${cpf}`, {
-            method: "GET",
-            mode: "no-cors" // <- assim o navegador não bloqueia, mas não vai conseguir ler response.json()
-        });
-    
-        if (result === "ja_votou") {
-          showError('❌ Este CPF já votou. Cada eleitor só pode votar uma vez.');
+        const response = await fetch(`${SCRIPT_URL}?cpf=${cpf}`);
+        const data = await response.json();
+      
+        if (data.status === "ja_votou") {
+          showError("❌ Este CPF já votou. Cada eleitor só pode votar uma vez.");
           return;
         }
-    
+      
         validatedCPF = cpf;
-        showSuccess('✅ CPF validado! Agora você pode votar.');
+        showSuccess("✅ CPF validado! Agora você pode votar.");
         updateVotingArea();
-    
+      
       } catch (error) {
-        showError('Erro ao validar CPF. Tente novamente.');
+        console.error(error);
+        showError("Erro ao validar CPF. Tente novamente.");
       } finally {
-        validateBtn.textContent = 'Validar CPF';
+        validateBtn.textContent = "Validar CPF";
         validateBtn.disabled = false;
       }
     }
