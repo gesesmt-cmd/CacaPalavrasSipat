@@ -752,4 +752,235 @@
     }
     
     function hideMessages() {
-      document.getElementById('
+      document.getElementById('cpf-error').style.display = 'none';
+      document.getElementById('cpf-success').style.display = 'none';
+    }
+    
+    function showError(message) {
+      const errorDiv = document.getElementById('cpf-error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+    
+    function showSuccess(message) {
+      const successDiv = document.getElementById('cpf-success');
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+    }
+    
+    function updateVotingArea() {
+      const votingArea = document.getElementById('voting-area');
+      if (validatedCPF) {
+        votingArea.classList.add('enabled');
+      } else {
+        votingArea.classList.remove('enabled');
+        selectedPhoto = null;
+        updatePhotoSelection();
+        updateSubmitButton();
+      }
+    }
+    
+    function selectPhoto(photoNumber) {
+      if (!validatedCPF) {
+        alert('⚠️ Por favor, valide seu CPF primeiro!');
+        return;
+      }
+      
+      if (hasVoted) {
+        alert('⚠️ Você já votou!');
+        return;
+      }
+      
+      selectedPhoto = photoNumber;
+      updatePhotoSelection();
+      updateSubmitButton();
+    }
+    
+    function updatePhotoSelection() {
+      const cards = document.querySelectorAll('.photo-card');
+      cards.forEach((card, index) => {
+        const photoNumber = index + 1;
+        if (photoNumber === selectedPhoto) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+    }
+    
+    function updateSubmitButton() {
+      const submitBtn = document.getElementById('submit-vote-btn');
+      submitBtn.disabled = !validatedCPF || !selectedPhoto || hasVoted;
+    }
+    
+    async function submitVote() {
+      if (!validatedCPF || !selectedPhoto || hasVoted) {
+        return;
+      }
+      
+      const submitBtn = document.getElementById('submit-vote-btn');
+      const voteError = document.getElementById('vote-error');
+      
+      // Confirmar voto
+      const confirmVote = confirm(`🗳️ Confirmar voto no Desenho ${selectedPhoto}?\n\nEsta ação não pode ser desfeita.`);
+      if (!confirmVote) return;
+      
+      submitBtn.textContent = '⏳ Enviando voto...';
+      submitBtn.disabled = true;
+      voteError.style.display = 'none';
+      
+      try {
+        // Preparar dados para envio
+        const voteData = {
+          cpf: validatedCPF,
+          desenho_votado: selectedPhoto,
+          data_voto: new Date().toLocaleString('pt-BR'),
+          timestamp: new Date().toISOString()
+        };
+        
+        // Enviar para Google Sheets
+        const formData = new FormData();
+        Object.keys(voteData).forEach(key => {
+          formData.append(key, voteData[key]);
+        });
+        
+        // Simular envio (substituir pela URL real do Google Apps Script)
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+        
+        // Simular sucesso (em produção, verificar response)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Marcar como votado
+        hasVoted = true;
+        
+        // Mostrar página de agradecimento
+        showThankYouPage();
+        
+      } catch (error) {
+        console.error('Erro ao enviar voto:', error);
+        voteError.textContent = '❌ Erro ao enviar voto. Verifique sua conexão e tente novamente.';
+        voteError.style.display = 'block';
+        submitBtn.textContent = '🗳️ Confirmar Voto';
+        submitBtn.disabled = false;
+      }
+    }
+    
+    function showThankYouPage() {
+      const votingPage = document.getElementById('voting-page');
+      const thankYouPage = document.getElementById('thank-you-page');
+      
+      // Atualizar detalhes do voto
+      document.getElementById('vote-details').textContent = `Desenho selecionado: Desenho ${selectedPhoto}`;
+      document.getElementById('vote-time').textContent = `Data/Hora: ${new Date().toLocaleString('pt-BR')}`;
+      
+      // Transição entre páginas
+      votingPage.style.display = 'none';
+      thankYouPage.classList.add('show');
+      
+      // Scroll para o topo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Confetti effect (opcional)
+      createConfetti();
+    }
+    
+    function resetVoting() {
+      if (confirm('🔄 Deseja realmente resetar a votação?\n\nIsso permitirá um novo voto.')) {
+        // Reset all variables
+        validatedCPF = '';
+        selectedPhoto = null;
+        hasVoted = false;
+        
+        // Reset form
+        document.getElementById('cpf').value = '';
+        hideMessages();
+        updatePhotoSelection();
+        updateVotingArea();
+        updateSubmitButton();
+        
+        // Reset button text
+        document.getElementById('submit-vote-btn').textContent = '🗳️ Confirmar Voto';
+        document.getElementById('vote-error').style.display = 'none';
+        
+        // Show voting page
+        document.getElementById('voting-page').style.display = 'block';
+        document.getElementById('thank-you-page').classList.remove('show');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    
+    function createConfetti() {
+      const colors = ['#1e88e5', '#1976d2', '#0d47a1', '#42a5f5', '#90caf9'];
+      const container = document.body;
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: fixed;
+          width: ${Math.random() * 10 + 5}px;
+          height: ${Math.random() * 10 + 5}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          left: ${Math.random() * 100}vw;
+          top: -20px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+          pointer-events: none;
+          z-index: 10000;
+          animation: confettiFall ${Math.random() * 3 + 2}s linear forwards;
+        `;
+        
+        container.appendChild(confetti);
+        
+        // Remove confetti after animation
+        setTimeout(() => {
+          if (confetti.parentNode) {
+            confetti.parentNode.removeChild(confetti);
+          }
+        }, 5000);
+      }
+    }
+    
+    // CSS para animação do confetti
+    const confettiStyle = document.createElement('style');
+    confettiStyle.textContent = `
+      @keyframes confettiFall {
+        to {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(confettiStyle);
+    
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      updateVotingArea();
+      updateSubmitButton();
+      
+      // Permitir Enter no campo CPF
+      cpfInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          validateCPF();
+        }
+      });
+      
+      // Adicionar efeitos visuais
+      const cards = document.querySelectorAll('.photo-card');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.style.animation = 'slideUp 0.6s ease-out forwards';
+      });
+    });
+    
+    // Prevenir reload acidental
+    window.addEventListener('beforeunload', function(e) {
+      if (selectedPhoto && !hasVoted) {
+        e.preventDefault();
+        e.returnValue = 'Você tem um voto não confirmado. Tem certeza que deseja sair?';
+      }
+    });
