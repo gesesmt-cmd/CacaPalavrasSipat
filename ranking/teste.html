@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ranking de Jogadores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      padding-top: 72px; /* espaço para o header fixo */
+    }
+
+    /* --- Header inserido via fetch --- */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      background: rgba(255,255,255,0.40);
+      backdrop-filter: blur(6px);
+      padding: 12px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    #header > * {
+      width: calc(100% - 40px);
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    #header header {
+      position: static;
+    }
+
+    #header img {
+      height: 40px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <div class="container">
+    <h1>Ranking de Jogadores</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Posição</th>
+          <th>Nome</th>
+          <th>Pontos</th>
+          <th>Tempo</th>
+        </tr>
+      </thead>
+      <tbody id="ranking-body">
+        <!-- Dados do ranking -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Importar header
+    fetch("/Sipat2025Energia/header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      });
+
+    // 🔗 URLs das 3 planilhas publicadas como CSV
+    const sheet1Url = "https://docs.google.com/spreadsheets/d/SEU_ID_1/gviz/tq?tqx=out:csv&sheet=Planilha1";
+    const sheet2Url = "https://docs.google.com/spreadsheets/d/SEU_ID_2/gviz/tq?tqx=out:csv&sheet=Planilha2";
+    const sheet3Url = "https://docs.google.com/spreadsheets/d/SEU_ID_3/gviz/tq?tqx=out:csv&sheet=Planilha3";
+
+    // Função para converter CSV em array de objetos
+    function csvToArray(csv) {
+      const linhas = csv.split("\n").filter(l => l.trim().length > 0);
+      const cabecalho = linhas[0].split(",");
+      return linhas.slice(1).map(l => {
+        const cols = l.split(",");
+        let obj = {};
+        cabecalho.forEach((h, i) => obj[h.trim()] = cols[i]?.trim());
+        return obj;
+      });
+    }
+
+    async function carregarRanking() {
+      try {
+        // Carregar as 3 planilhas em paralelo
+        const [csv1, csv2, csv3] = await Promise.all([
+          fetch(sheet1Url).then(r => r.text()),
+          fetch(sheet2Url).then(r => r.text()),
+          fetch(sheet3Url).then(r => r.text())
+        ]);
+
+        // Converter CSV → array
+        const dados = [
+          ...csvToArray(csv1),
+          ...csvToArray(csv2),
+          ...csvToArray(csv3)
+        ];
+
+        // 🚀 Ajuste os nomes das colunas conforme sua planilha
+        const mapa = new Map();
+        dados.forEach(linha => {
+          const nome = linha["Nome"];
+          const pontos = Number(linha["Pontuação"] || linha["Pontos"] || 0);
+          if (!mapa.has(nome)) mapa.set(nome, { nome, pontos: 0 });
+          mapa.get(nome).pontos += pontos;
+        });
+
+        // Transformar em ranking ordenado
+        const ranking = Array.from(mapa.values())
+          .sort((a, b) => b.pontos - a.pontos);
+
+        // Renderizar tabela
+        const tbody = document.getElementById("ranking-body");
+        tbody.innerHTML = ""; // limpa antes de renderizar de novo
+        ranking.forEach((player, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${player.nome}</td>
+            <td>${player.pontos}</td>
+            <td>-</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+      } catch (err) {
+        console.error("Erro ao carregar ranking:", err);
+      }
+    }
+
+    // 🔄 Atualiza a cada 30 segundos automaticamente
+    setInterval(carregarRanking, 30000);
+
+    // Carrega já na abertura da página
+    carregarRanking();
+  </script>
+</body>
+</html>
